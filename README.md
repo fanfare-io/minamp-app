@@ -2,7 +2,7 @@
 
 Open tooling and skin-format spec for [Minamp](https://www.minamp.app), a Winamp-classic macOS player.
 
-The Minamp app itself is closed-source and distributed via the Mac App Store. This repository holds the pieces that the community benefits from:
+The Minamp app itself is closed-source and will ship via the Mac App Store. This repository holds the pieces that the community benefits from:
 
 - **`figma-skin-plugin/`** — a Figma plugin for designing Minamp HD skins (`.msz`) without hand-painting sprite sheets.
 - **`docs/skin-format/`** — the authoritative spec for the HD skin format, plus reference template assets.

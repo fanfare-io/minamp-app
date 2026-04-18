@@ -7,7 +7,7 @@
   "editorType": ["figma"],
   "networkAccess": {
     "allowedDomains": ["*"],
-    "reasoning": "The Assets tab fetches user-supplied URLs (typically the local animation-lab dev server) to import generated images as Figma image assets that designs can then reference."
+    "reasoning": "The Assets tab fetches user-supplied image URLs to import them as Figma image assets that skin components can reference."
   },
   "documentAccess": "dynamic-page",
   "menu": [

@@ -14,7 +14,7 @@ export function AssetsPanel({
   onDelete,
   onRefresh,
 }: AssetsPanelProps): React.ReactElement {
-  const [url, setUrl] = useState("http://localhost:5173/api/image/");
+  const [url, setUrl] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
