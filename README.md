@@ -1,6 +1,6 @@
 # minamp-app
 
-Open tooling and skin-format spec for [Minamp](https://github.com/fanfare-io/minamp-app), a Winamp-classic macOS player.
+Open tooling and skin-format spec for [Minamp](https://www.minamp.app), a Winamp-classic macOS player.
 
 The Minamp app itself is closed-source and distributed via the Mac App Store. This repository holds the pieces that the community benefits from:
 
@@ -10,7 +10,7 @@ The Minamp app itself is closed-source and distributed via the Mac App Store. Th
 
 ## Getting Minamp
 
-Minamp is coming to the Mac App Store. _App Store link — TBD._
+Minamp is coming to the Mac App Store. Latest info and download links at **[www.minamp.app](https://www.minamp.app)**.
 
 ## Designing a skin
 
