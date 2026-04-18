@@ -1,0 +1,22 @@
+{
+  "name": "minamp-skin-designer",
+  "version": "1.0.0",
+  "description": "Figma plugin for creating Minamp HD skins (.msz)",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.2",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  }
+}

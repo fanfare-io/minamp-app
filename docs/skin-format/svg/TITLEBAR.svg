@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="604" height="112" viewBox="0 0 604 112">
+  <rect width="604" height="112" fill="#1a1a2e"/>
+  <rect x="54" y="0" width="550" height="28" fill="#4A90D9" fill-opacity="0.25" stroke="#4A90D9" stroke-width="1"/>
+  <text x="329.0" y="17.15" text-anchor="middle" fill="#4A90D9" font-family="monospace" font-size="9" font-weight="bold">Active Title Bar</text>
+  <rect x="54" y="30" width="550" height="28" fill="#D94A4A" fill-opacity="0.25" stroke="#D94A4A" stroke-width="1"/>
+  <text x="329.0" y="47.15" text-anchor="middle" fill="#D94A4A" font-family="monospace" font-size="9" font-weight="bold">Inactive Title Bar</text>
+  <rect x="0" y="0" width="18" height="18" fill="#4AD94A" fill-opacity="0.25" stroke="#4AD94A" stroke-width="1"/>
+  <text x="9.0" y="11.45" text-anchor="middle" fill="#4AD94A" font-family="monospace" font-size="7" font-weight="bold">Shad</text>
+  <rect x="0" y="18" width="18" height="18" fill="#D9D94A" fill-opacity="0.25" stroke="#D9D94A" stroke-width="1"/>
+  <text x="9.0" y="29.45" text-anchor="middle" fill="#D9D94A" font-family="monospace" font-size="7" font-weight="bold">Shad</text>
+  <rect x="18" y="0" width="18" height="18" fill="#D94AD9" fill-opacity="0.25" stroke="#D94AD9" stroke-width="1"/>
+  <text x="27.0" y="11.45" text-anchor="middle" fill="#D94AD9" font-family="monospace" font-size="7" font-weight="bold">Min</text>
+  <rect x="18" y="18" width="18" height="18" fill="#4AD9D9" fill-opacity="0.25" stroke="#4AD9D9" stroke-width="1"/>
+  <text x="27.0" y="29.45" text-anchor="middle" fill="#4AD9D9" font-family="monospace" font-size="7" font-weight="bold">Min </text>
+  <rect x="36" y="0" width="18" height="18" fill="#D9904A" fill-opacity="0.25" stroke="#D9904A" stroke-width="1"/>
+  <text x="45.0" y="11.45" text-anchor="middle" fill="#D9904A" font-family="monospace" font-size="7" font-weight="bold">Clos</text>
+  <rect x="36" y="18" width="18" height="18" fill="#904AD9" fill-opacity="0.25" stroke="#904AD9" stroke-width="1"/>
+  <text x="45.0" y="29.45" text-anchor="middle" fill="#904AD9" font-family="monospace" font-size="7" font-weight="bold">Clos</text>
+  <rect x="54" y="58" width="550" height="28" fill="#4A6DD9" fill-opacity="0.25" stroke="#4A6DD9" stroke-width="1"/>
+  <text x="329.0" y="75.15" text-anchor="middle" fill="#4A6DD9" font-family="monospace" font-size="9" font-weight="bold">Shade BG (focused)</text>
+  <rect x="54" y="84" width="550" height="28" fill="#D96A4A" fill-opacity="0.25" stroke="#D96A4A" stroke-width="1"/>
+  <text x="329.0" y="101.15" text-anchor="middle" fill="#D96A4A" font-family="monospace" font-size="9" font-weight="bold">Shade BG (unfocused)</text>
+  <rect x="0" y="36" width="18" height="18" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="9.0" y="47.45" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="7" font-weight="bold">ShTo</text>
+  <rect x="18" y="36" width="18" height="18" fill="#D9D96A" fill-opacity="0.25" stroke="#D9D96A" stroke-width="1"/>
+  <text x="27.0" y="47.45" text-anchor="middle" fill="#D9D96A" font-family="monospace" font-size="7" font-weight="bold">ShTo</text>
+  <rect x="0" y="72" width="34" height="14" fill="#6A4AD9" fill-opacity="0.25" stroke="#6A4AD9" stroke-width="1"/>
+  <text x="17.0" y="81.45" text-anchor="middle" fill="#6A4AD9" font-family="monospace" font-size="7" font-weight="bold">Sh Pos B</text>
+  <rect x="40" y="72" width="6" height="14" fill="#4AD96A" fill-opacity="0.25" stroke="#4AD96A" stroke-width="1"/>
+  <text x="43.0" y="81.45" text-anchor="middle" fill="#4AD96A" font-family="monospace" font-size="7" font-weight="bold">Th</text>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="184" height="170" viewBox="0 0 184 170">
+  <rect width="184" height="170" fill="#1a1a2e"/>
+  <rect x="0" y="0" width="56" height="30" fill="#4A90D9" fill-opacity="0.25" stroke="#4A90D9" stroke-width="1"/>
+  <text x="28.0" y="18.5" text-anchor="middle" fill="#4A90D9" font-family="monospace" font-size="10" font-weight="bold">Rep Off</text>
+  <rect x="0" y="30" width="56" height="30" fill="#D94A4A" fill-opacity="0.25" stroke="#D94A4A" stroke-width="1"/>
+  <text x="28.0" y="48.5" text-anchor="middle" fill="#D94A4A" font-family="monospace" font-size="10" font-weight="bold">Rep Off P</text>
+  <rect x="0" y="60" width="56" height="30" fill="#4AD94A" fill-opacity="0.25" stroke="#4AD94A" stroke-width="1"/>
+  <text x="28.0" y="78.5" text-anchor="middle" fill="#4AD94A" font-family="monospace" font-size="10" font-weight="bold">Rep On</text>
+  <rect x="0" y="90" width="56" height="30" fill="#D9D94A" fill-opacity="0.25" stroke="#D9D94A" stroke-width="1"/>
+  <text x="28.0" y="108.5" text-anchor="middle" fill="#D9D94A" font-family="monospace" font-size="10" font-weight="bold">Rep On P</text>
+  <rect x="56" y="0" width="94" height="30" fill="#D94AD9" fill-opacity="0.25" stroke="#D94AD9" stroke-width="1"/>
+  <text x="103.0" y="18.5" text-anchor="middle" fill="#D94AD9" font-family="monospace" font-size="10" font-weight="bold">Shuffle Off</text>
+  <rect x="56" y="30" width="94" height="30" fill="#4AD9D9" fill-opacity="0.25" stroke="#4AD9D9" stroke-width="1"/>
+  <text x="103.0" y="48.5" text-anchor="middle" fill="#4AD9D9" font-family="monospace" font-size="10" font-weight="bold">Shuffle Off P</text>
+  <rect x="56" y="60" width="94" height="30" fill="#D9904A" fill-opacity="0.25" stroke="#D9904A" stroke-width="1"/>
+  <text x="103.0" y="78.5" text-anchor="middle" fill="#D9904A" font-family="monospace" font-size="10" font-weight="bold">Shuffle On</text>
+  <rect x="56" y="90" width="94" height="30" fill="#904AD9" fill-opacity="0.25" stroke="#904AD9" stroke-width="1"/>
+  <text x="103.0" y="108.5" text-anchor="middle" fill="#904AD9" font-family="monospace" font-size="10" font-weight="bold">Shuffle On P</text>
+  <rect x="0" y="122" width="46" height="24" fill="#4A6DD9" fill-opacity="0.25" stroke="#4A6DD9" stroke-width="1"/>
+  <text x="23.0" y="136.8" text-anchor="middle" fill="#4A6DD9" font-family="monospace" font-size="8" font-weight="bold">EQ Off</text>
+  <rect x="0" y="146" width="46" height="24" fill="#D96A4A" fill-opacity="0.25" stroke="#D96A4A" stroke-width="1"/>
+  <text x="23.0" y="160.8" text-anchor="middle" fill="#D96A4A" font-family="monospace" font-size="8" font-weight="bold">EQ On</text>
+  <rect x="46" y="122" width="46" height="24" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="69.0" y="136.8" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="8" font-weight="bold">PL Off</text>
+  <rect x="46" y="146" width="46" height="24" fill="#D9D96A" fill-opacity="0.25" stroke="#D9D96A" stroke-width="1"/>
+  <text x="69.0" y="160.8" text-anchor="middle" fill="#D9D96A" font-family="monospace" font-size="8" font-weight="bold">PL On</text>
+</svg>

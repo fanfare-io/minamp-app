@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="272" height="72" viewBox="0 0 272 72">
+  <rect width="272" height="72" fill="#1a1a2e"/>
+  <rect x="0" y="0" width="46" height="36" fill="#4A90D9" fill-opacity="0.25" stroke="#4A90D9" stroke-width="1"/>
+  <text x="23.0" y="21.85" text-anchor="middle" fill="#4A90D9" font-family="monospace" font-size="11" font-weight="bold">Prev</text>
+  <rect x="0" y="36" width="46" height="36" fill="#D94A4A" fill-opacity="0.25" stroke="#D94A4A" stroke-width="1"/>
+  <text x="23.0" y="57.85" text-anchor="middle" fill="#D94A4A" font-family="monospace" font-size="11" font-weight="bold">Prev P</text>
+  <rect x="46" y="0" width="46" height="36" fill="#4AD94A" fill-opacity="0.25" stroke="#4AD94A" stroke-width="1"/>
+  <text x="69.0" y="21.85" text-anchor="middle" fill="#4AD94A" font-family="monospace" font-size="11" font-weight="bold">Play</text>
+  <rect x="46" y="36" width="46" height="36" fill="#D9D94A" fill-opacity="0.25" stroke="#D9D94A" stroke-width="1"/>
+  <text x="69.0" y="57.85" text-anchor="middle" fill="#D9D94A" font-family="monospace" font-size="11" font-weight="bold">Play P</text>
+  <rect x="92" y="0" width="46" height="36" fill="#D94AD9" fill-opacity="0.25" stroke="#D94AD9" stroke-width="1"/>
+  <text x="115.0" y="21.85" text-anchor="middle" fill="#D94AD9" font-family="monospace" font-size="11" font-weight="bold">Pause</text>
+  <rect x="92" y="36" width="46" height="36" fill="#4AD9D9" fill-opacity="0.25" stroke="#4AD9D9" stroke-width="1"/>
+  <text x="115.0" y="57.85" text-anchor="middle" fill="#4AD9D9" font-family="monospace" font-size="11" font-weight="bold">Pause P</text>
+  <rect x="138" y="0" width="46" height="36" fill="#D9904A" fill-opacity="0.25" stroke="#D9904A" stroke-width="1"/>
+  <text x="161.0" y="21.85" text-anchor="middle" fill="#D9904A" font-family="monospace" font-size="11" font-weight="bold">Stop</text>
+  <rect x="138" y="36" width="46" height="36" fill="#904AD9" fill-opacity="0.25" stroke="#904AD9" stroke-width="1"/>
+  <text x="161.0" y="57.85" text-anchor="middle" fill="#904AD9" font-family="monospace" font-size="11" font-weight="bold">Stop P</text>
+  <rect x="184" y="0" width="44" height="36" fill="#4A6DD9" fill-opacity="0.25" stroke="#4A6DD9" stroke-width="1"/>
+  <text x="206.0" y="21.85" text-anchor="middle" fill="#4A6DD9" font-family="monospace" font-size="11" font-weight="bold">Next</text>
+  <rect x="184" y="36" width="44" height="36" fill="#D96A4A" fill-opacity="0.25" stroke="#D96A4A" stroke-width="1"/>
+  <text x="206.0" y="57.85" text-anchor="middle" fill="#D96A4A" font-family="monospace" font-size="11" font-weight="bold">Next P</text>
+  <rect x="228" y="0" width="44" height="32" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="250.0" y="19.85" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="11" font-weight="bold">Eject</text>
+  <rect x="228" y="32" width="44" height="32" fill="#D9D96A" fill-opacity="0.25" stroke="#D9D96A" stroke-width="1"/>
+  <text x="250.0" y="51.85" text-anchor="middle" fill="#D9D96A" font-family="monospace" font-size="11" font-weight="bold">Eject P</text>
+</svg>

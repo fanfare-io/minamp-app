@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="552" height="220" viewBox="0 0 552 220">
+  <rect width="552" height="220" fill="#1a1a2e"/>
+  <rect x="0" y="0" width="50" height="40" fill="#4A90D9" fill-opacity="0.25" stroke="#4A90D9" stroke-width="1"/>
+  <text x="25.0" y="23.85" text-anchor="middle" fill="#4A90D9" font-family="monospace" font-size="11" font-weight="bold">TL Act</text>
+  <rect x="52" y="0" width="200" height="40" fill="#D94A4A" fill-opacity="0.25" stroke="#D94A4A" stroke-width="1"/>
+  <text x="152.0" y="23.85" text-anchor="middle" fill="#D94A4A" font-family="monospace" font-size="11" font-weight="bold">Title Active</text>
+  <rect x="254" y="0" width="50" height="40" fill="#4AD94A" fill-opacity="0.25" stroke="#4AD94A" stroke-width="1"/>
+  <text x="279.0" y="23.85" text-anchor="middle" fill="#4AD94A" font-family="monospace" font-size="11" font-weight="bold">Fill Act</text>
+  <rect x="306" y="0" width="50" height="40" fill="#D9D94A" fill-opacity="0.25" stroke="#D9D94A" stroke-width="1"/>
+  <text x="331.0" y="23.85" text-anchor="middle" fill="#D9D94A" font-family="monospace" font-size="11" font-weight="bold">TR Act</text>
+  <rect x="0" y="42" width="50" height="40" fill="#D94AD9" fill-opacity="0.25" stroke="#D94AD9" stroke-width="1"/>
+  <text x="25.0" y="65.85" text-anchor="middle" fill="#D94AD9" font-family="monospace" font-size="11" font-weight="bold">TL Inact</text>
+  <rect x="52" y="42" width="200" height="40" fill="#4AD9D9" fill-opacity="0.25" stroke="#4AD9D9" stroke-width="1"/>
+  <text x="152.0" y="65.85" text-anchor="middle" fill="#4AD9D9" font-family="monospace" font-size="11" font-weight="bold">Title Inactive</text>
+  <rect x="254" y="42" width="50" height="40" fill="#D9904A" fill-opacity="0.25" stroke="#D9904A" stroke-width="1"/>
+  <text x="279.0" y="65.85" text-anchor="middle" fill="#D9904A" font-family="monospace" font-size="11" font-weight="bold">Fill Ina</text>
+  <rect x="306" y="42" width="50" height="40" fill="#904AD9" fill-opacity="0.25" stroke="#904AD9" stroke-width="1"/>
+  <text x="331.0" y="65.85" text-anchor="middle" fill="#904AD9" font-family="monospace" font-size="11" font-weight="bold">TR Inact</text>
+  <rect x="0" y="84" width="24" height="58" fill="#4A6DD9" fill-opacity="0.25" stroke="#4A6DD9" stroke-width="1"/>
+  <text x="12.0" y="115.8" text-anchor="middle" fill="#4A6DD9" font-family="monospace" font-size="8" font-weight="bold">L Bor</text>
+  <rect x="62" y="84" width="40" height="58" fill="#D96A4A" fill-opacity="0.25" stroke="#D96A4A" stroke-width="1"/>
+  <text x="82.0" y="116.85" text-anchor="middle" fill="#D96A4A" font-family="monospace" font-size="11" font-weight="bold">R Bord</text>
+  <rect x="104" y="106" width="16" height="36" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="112.0" y="126.45" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="7" font-weight="bold">Scro</text>
+  <rect x="122" y="106" width="16" height="36" fill="#D9D96A" fill-opacity="0.25" stroke="#D9D96A" stroke-width="1"/>
+  <text x="130.0" y="126.45" text-anchor="middle" fill="#D9D96A" font-family="monospace" font-size="7" font-weight="bold">Scro</text>
+  <rect x="104" y="84" width="18" height="18" fill="#6A4AD9" fill-opacity="0.25" stroke="#6A4AD9" stroke-width="1"/>
+  <text x="113.0" y="95.45" text-anchor="middle" fill="#6A4AD9" font-family="monospace" font-size="7" font-weight="bold">Clos</text>
+  <rect x="124" y="84" width="18" height="18" fill="#4AD96A" fill-opacity="0.25" stroke="#4AD96A" stroke-width="1"/>
+  <text x="133.0" y="95.45" text-anchor="middle" fill="#4AD96A" font-family="monospace" font-size="7" font-weight="bold">Shad</text>
+  <rect x="358" y="0" width="50" height="76" fill="#D94A6A" fill-opacity="0.25" stroke="#D94A6A" stroke-width="1"/>
+  <text x="383.0" y="41.85" text-anchor="middle" fill="#D94A6A" font-family="monospace" font-size="11" font-weight="bold">Bot Fill</text>
+  <rect x="0" y="144" width="250" height="76" fill="#4A90D9" fill-opacity="0.25" stroke="#4A90D9" stroke-width="1"/>
+  <text x="125.0" y="185.85" text-anchor="middle" fill="#4A90D9" font-family="monospace" font-size="11" font-weight="bold">Bot Left</text>
+  <rect x="252" y="144" width="300" height="76" fill="#D9904A" fill-opacity="0.25" stroke="#D9904A" stroke-width="1"/>
+  <text x="402.0" y="185.85" text-anchor="middle" fill="#D9904A" font-family="monospace" font-size="11" font-weight="bold">Bot Right</text>
+  <rect x="144" y="84" width="50" height="28" fill="#904AD9" fill-opacity="0.25" stroke="#904AD9" stroke-width="1"/>
+  <text x="169.0" y="101.15" text-anchor="middle" fill="#904AD9" font-family="monospace" font-size="9" font-weight="bold">ShL Act</text>
+  <rect x="144" y="114" width="50" height="28" fill="#4AD9D9" fill-opacity="0.25" stroke="#4AD9D9" stroke-width="1"/>
+  <text x="169.0" y="131.15" text-anchor="middle" fill="#4AD9D9" font-family="monospace" font-size="9" font-weight="bold">ShL Inact</text>
+  <rect x="198" y="84" width="100" height="28" fill="#D94AD9" fill-opacity="0.25" stroke="#D94AD9" stroke-width="1"/>
+  <text x="248.0" y="101.15" text-anchor="middle" fill="#D94AD9" font-family="monospace" font-size="9" font-weight="bold">ShR Act</text>
+  <rect x="198" y="114" width="100" height="28" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="248.0" y="131.15" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="9" font-weight="bold">ShR Inact</text>
+</svg>

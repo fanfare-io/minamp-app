@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  plugin:
+    name: figma-skin-plugin
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: figma-skin-plugin
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: figma-skin-plugin/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload built plugin artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-dist
+          path: figma-skin-plugin/dist
+          if-no-files-found: error

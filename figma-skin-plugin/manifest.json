@@ -1,0 +1,32 @@
+{
+  "name": "Minamp Skin Designer",
+  "id": "minamp-skin-designer",
+  "api": "1.0.0",
+  "main": "dist/plugin.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["*"],
+    "reasoning": "The Assets tab fetches user-supplied URLs (typically the local animation-lab dev server) to import generated images as Figma image assets that designs can then reference."
+  },
+  "documentAccess": "dynamic-page",
+  "menu": [
+    {
+      "name": "Open Skin Designer",
+      "command": "open"
+    },
+    { "separator": true },
+    {
+      "name": "Generate Template",
+      "command": "generate-template"
+    },
+    {
+      "name": "Validate Skin",
+      "command": "validate"
+    },
+    {
+      "name": "Export .msz",
+      "command": "export"
+    }
+  ]
+}
