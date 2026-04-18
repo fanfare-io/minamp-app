@@ -2,6 +2,15 @@
   "name": "minamp-skin-designer",
   "version": "1.0.0",
   "description": "Figma plugin for creating Minamp HD skins (.msz)",
+  "author": "Fanfare",
+  "license": "MIT",
+  "homepage": "https://github.com/fanfare-io/minamp-app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fanfare-io/minamp-app.git",
+    "directory": "figma-skin-plugin"
+  },
+  "private": true,
   "scripts": {
     "build": "node esbuild.config.mjs",
     "watch": "node esbuild.config.mjs --watch",
