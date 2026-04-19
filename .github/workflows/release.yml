@@ -1,0 +1,60 @@
+name: Release plugin
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag name to publish (e.g. v1.0.0). Used only on workflow_dispatch."
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish figma-skin-plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "name=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${GITHUB_REF##*/}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: figma-skin-plugin/package-lock.json
+
+      - name: Install, typecheck, build
+        working-directory: figma-skin-plugin
+        run: |
+          npm ci
+          npm run typecheck
+          npm run build
+
+      - name: Package release zip
+        working-directory: figma-skin-plugin
+        run: |
+          ZIP_NAME="minamp-skin-designer-${{ steps.tag.outputs.name }}.zip"
+          zip -r "../$ZIP_NAME" manifest.json dist
+          echo "ZIP_PATH=$ZIP_NAME" >> "$GITHUB_ENV"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.name }}
+          name: ${{ steps.tag.outputs.name }}
+          generate_release_notes: true
+          files: ${{ env.ZIP_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
