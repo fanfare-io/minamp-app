@@ -37,6 +37,19 @@ Load the built plugin in Figma desktop via **Plugins → Development → Import 
 5. CI must pass.
 6. Reviews are single-maintainer; expect quick iteration on small PRs. Squash-merge is the default.
 
+## Cutting a plugin release
+
+Plugin releases are published as GitHub Releases with a side-loadable zip attached. The release workflow runs automatically on any tag matching `v*`:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The workflow typechecks, builds, and uploads `minamp-skin-designer-v1.0.0.zip` (containing `manifest.json` + `dist/`) to a new release. End users download the zip, extract it, and import via **Plugins → Development → Import plugin from manifest…** in Figma.
+
+For a manual run on an existing tag, use the **Release plugin** workflow's "Run workflow" button on the Actions tab and supply the tag name.
+
 ## Reporting security issues
 
 Don't file security issues in public. See [`SECURITY.md`](SECURITY.md).
