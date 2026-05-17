@@ -21,6 +21,8 @@
   <text x="153.0" y="15.45" text-anchor="middle" fill="#4A6DD9" font-family="monospace" font-size="7" font-weight="bold">8</text>
   <rect x="162" y="0" width="18" height="26" fill="#D96A4A" fill-opacity="0.25" stroke="#D96A4A" stroke-width="1"/>
   <text x="171.0" y="15.45" text-anchor="middle" fill="#D96A4A" font-family="monospace" font-size="7" font-weight="bold">9</text>
-  <rect x="180" y="0" width="18" height="26" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
-  <text x="189.0" y="15.45" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="7" font-weight="bold">-</text>
+  <rect x="18" y="12" width="10" height="2" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="23.0" y="15.45" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="7" font-weight="bold"></text>
+  <rect x="40" y="12" width="10" height="2" fill="#6AD94A" fill-opacity="0.25" stroke="#6AD94A" stroke-width="1"/>
+  <text x="45.0" y="15.45" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="7" font-weight="bold"></text>
 </svg>

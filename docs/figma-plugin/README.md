@@ -280,9 +280,8 @@ and placement offsets:
   scale`. Because the component was sized at `def.width * scale` when
   the template was generated, everything lines up without further
   rescaling.
-- Minamp's `MSZParser` reads `skin.json.assetScale` and tells the
-  `SpriteExtractor` which multiplier to use when cropping sprites at
-  runtime.
+- The Minamp renderer reads `skin.json.assetScale` from the `.msz`
+  archive and applies that multiplier when cropping sprites at runtime.
 
 Changing scale means regenerating the template — a 2× file can't be
 used to export a 3× skin.
@@ -300,9 +299,8 @@ order:
    update the component's `width` / `height`, `target.placements`, any
    `OVERLAY_GUIDES` entry, and any `PREVIEW_FRAMES` placement that
    references it.
-3. **Swift renderer** (in the closed-source Minamp app repo) — the
-   maintainer updates the matching `CGRect` / sprite map entry in the
-   `SkinSystem` package so the renderer reads the new coordinates. Flag
+3. **Minamp app renderer** — coordinate with the Minamp maintainers so
+   the app-side rendering code lands the matching change. Flag
    coordinate changes in your PR description so the renderer can land
    in lockstep.
 
@@ -326,10 +324,9 @@ browser APIs. Keep `src/plugin/` lean (the TypeScript compiles to an ES
 target that Figma accepts), and put anything that needs `Canvas`,
 `Blob`, `URL.createObjectURL`, `document`, etc. in `src/ui/`.
 
-The renderer itself (Swift / AppKit) lives in the closed-source Minamp
-app repo. Changes there are made by the Minamp maintainers; layout
-coordinate changes should travel together with the matching PR in this
-repo.
+The renderer itself lives in the closed-source Minamp app repo.
+Changes there are made by the Minamp maintainers; layout coordinate
+changes should travel together with the matching PR in this repo.
 
 ---
 

@@ -26,4 +26,4 @@ Please include:
 
 This policy covers code and documentation in this repository: the Figma plugin, skin-format spec, and template assets.
 
-The Minamp macOS app itself (closed-source, shipped via the Mac App Store) is outside this repository's scope, but security reports about the app are still welcome via the same email — we'll route them appropriately.
+The Minamp macOS app itself (closed-source, shipped via the Mac App Store) is outside this repository's scope, but security reports about the app are still welcome via the same email and will be routed appropriately.

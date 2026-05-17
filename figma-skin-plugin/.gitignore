@@ -1,2 +1,6 @@
 node_modules/
-dist/
+# dist/ is intentionally tracked — Figma loads dist/plugin.js and
+# dist/ui.html directly from the manifest. Committing the minified
+# build means designers can install the plugin straight from a clone
+# without running an npm step. Run `npm run build` before committing
+# source changes so the tracked output stays in sync.

@@ -226,9 +226,31 @@ function validateOneComponent(
       };
     }
 
-    // Variant axis check — only enforce for non-slider components, since
-    // sliders use a synthetic Part=BG/Fill axis the def doesn't list.
-    if (def.sliderMode !== "auto") {
+    // Variant axis check — for sliders, the def doesn't list the synthetic
+    // Part=BG/Fill axis, but BOTH parts must exist or the exporter will
+    // silently emit a slider with no fill (or no track), producing a
+    // valid-looking .msz with a blank slider atlas.
+    if (def.sliderMode === "auto") {
+      const parts = new Set<string>();
+      for (const child of set.children) {
+        if (child.type === "COMPONENT") {
+          const part = child.variantProperties?.["Part"];
+          if (part) parts.add(part);
+        }
+      }
+      const missing = ["BG", "Fill"].filter((p) => !parts.has(p));
+      if (missing.length > 0) {
+        return {
+          frameName: def.name,
+          status: "fail",
+          message: `Slider "${def.name}" is missing variant(s): ${missing.map((m) => `Part=${m}`).join(", ")}`,
+          expectedWidth,
+          expectedHeight,
+          actualWidth: null,
+          actualHeight: null,
+        };
+      }
+    } else {
       const actualAxes = readVariantAxes(set);
       const diff = diffVariantAxes(def.variants, actualAxes);
       if (diff) {

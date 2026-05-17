@@ -1,103 +1,135 @@
 # Minamp Skin Designer — Figma Plugin
 
-A Figma plugin for creating Minamp HD skins (`.msz` format).
+A Figma plugin for creating Minamp HD skins (`.msz` format) without
+hand-painting sprite sheets. You author each UI element as a labeled
+Figma component; the plugin assembles the sprite atlases and ships you
+a ready-to-load `.msz`.
 
-## Features
+## Install
 
-- **Generate Template** — creates all 17 sprite sheet frames with labeled guide layers
-- **Validate** — checks that all frames exist with correct names and dimensions
-- **Export .msz** — exports all frames at 2x resolution, bundles with config files, downloads a ready-to-load `.msz` archive
-- **Preview** — composites sprites into an assembled main window preview
-- **Config editors** — visual editors for VISCOLOR.TXT (visualizer colors) and PLEDIT.TXT (playlist colors)
+The plugin will be published to the Figma Community. Until then, install
+locally:
 
-## Setup
-
-### Install dependencies
-
-```bash
-cd figma-skin-plugin
-npm install
-```
-
-### Build
-
-```bash
-npm run build     # one-shot build
-npm run watch     # watch mode for development
-```
-
-### Load in Figma
-
-1. Open Figma desktop app
-2. Go to **Plugins → Development → Import plugin from manifest...**
-3. Select `figma-skin-plugin/manifest.json`
-4. The plugin appears under **Plugins → Development → Minamp Skin Designer**
+1. `npm install` and `npm run build` from this directory.
+2. Open the Figma desktop app.
+3. **Plugins → Development → Import plugin from manifest…** → select
+   `manifest.json` in this directory.
+4. The plugin appears under **Plugins → Development → Minamp Skin
+   Designer**.
 
 ## Workflow
 
-### 1. Generate template
+The plugin runs in **component mode**: each skin element is a Figma
+ComponentSet (e.g. `Play Button` has `State=Normal` and `State=Pressed`
+variants). Authoring components instead of pre-baked sprite sheets means
+you never have to think about pixel-perfect atlas placement — the plugin
+packs the atlases for you at export time.
 
-Run **Plugins → Minamp Skin Designer → Generate Template** on an empty page. This creates 17 frames — one per sprite sheet — each with:
+**Create** runs first — it sets up the page. After that, **Assets** and
+**Config** are standalone and can be used at any time; **Export** needs
+the components from Create to already exist. The numbered steps below
+describe a typical authoring flow.
 
-- **Guides** (locked group) — labeled rectangles showing every sprite region
-- **Artwork** (unlocked group) — where you paint your skin
+### 1. Generate components
 
-### 2. Design your skin
+Open the plugin and click **Generate Components** on the **Create** tab.
+This stamps the full set of empty ComponentSets onto the current page,
+each at its real authored size with locked **Overlay Guides** showing
+where overlays land at runtime.
 
-Paint your skin artwork in the "Artwork" group of each frame. The guide layer shows you exactly where each button, slider, indicator, and display region needs to go.
+### 2. Design
 
-Key sprite sheets to focus on:
-- `MAIN` — the full window background (275×116)
-- `TITLEBAR` — title bars and window buttons
-- `CBUTTONS` — transport controls (play, pause, stop, etc.)
-- `VOLUME` — 28 volume fill level frames + thumb
-- `NUMBERS` — time display digits
-- `TEXT` — bitmap font for the scrolling marquee
+Paint inside each component variant. The guide rectangles in background
+components (Main Background, EQ Background, etc.) show you exactly where
+transport buttons, sliders, indicators, and dynamic text will be
+composited on top of your background art — so you can avoid painting
+chrome in slots that will get overlaid anyway.
 
-### 3. Validate
+The **Assets** tab is useful here for dropping photographic textures or
+reference images directly into Figma.
 
-Run **Validate Skin** to check that all required frames are present with correct dimensions. Fix any errors before exporting.
+### 3. Validate & export
 
-### 4. Configure colors
+The **Export** tab runs validation (every required component present,
+correct dimensions, no missing variants) and then writes the `.msz`.
+Internally the exporter:
+
+1. Renders every component variant to PNG at the configured asset scale
+   (2× by default).
+2. Interpolates 28 slider frames between the `Part=BG` and `Part=Fill`
+   variants for Volume, Balance, and EQ Slider Track.
+3. Composites every variant into the right position in its sprite atlas.
+4. Bundles atlases + `skin.json` + `VISCOLOR.TXT` + `PLEDIT.TXT` into
+   the `.msz` archive.
+
+The result is a single `.msz` file that drops straight into Minamp.
+
+### 4. Configure colors and playlist styling
 
 Open the **Config** tab to set:
-- **VISCOLOR** — 24 colors for the spectrum analyzer / oscilloscope
-- **PLEDIT** — playlist text colors and font
 
-### 5. Preview
+- **VISCOLOR** — 24 colors driving the spectrum analyzer / oscilloscope.
+- **PLEDIT** — playlist text colors and font.
 
-Use the **Preview** tab to see how your main window will look when fully assembled with all sprites composited in their final positions.
-
-### 6. Export
-
-Click **Export .msz** to download your finished skin. The plugin:
-1. Hides guide layers
-2. Exports each frame as PNG at 2x resolution
-3. Bundles with `skin.json`, `VISCOLOR.TXT`, and `PLEDIT.TXT`
-4. Downloads as a `.msz` file ready to load in Minamp
+These ship inside the `.msz` archive alongside the sprite atlases.
 
 ## Frame Reference
 
-All frames are at 1x pixel dimensions (the plugin exports at 2x):
+Atlas dimensions are at 1× pixel coordinates (the plugin exports at 2×
+or 3× depending on your asset scale):
 
-| Frame | Size | Contents |
+| Atlas | Size | Contents |
 |-------|------|----------|
-| MAIN | 275×116 | Main window background |
-| TITLEBAR | 302×56 | Title bars, window buttons, shade mode |
-| CBUTTONS | 136×36 | Transport buttons × 2 states |
-| VOLUME | 68×433 | 28 volume frames + 2 thumbs |
-| BALANCE | 68×433 | Balance slider (optional) |
-| POSBAR | 307×10 | Seek bar + 2 thumbs |
-| SHUFREP | 92×85 | Shuffle/repeat/EQ/PL toggles |
-| PLAYPAUS | 42×9 | Play/pause/stop indicators |
-| MONOSTER | 56×24 | Mono/stereo indicators |
-| NUMBERS | 99×13 | Time digits 0-9 + minus |
-| NUMS_EX | 99×13 | Extended digits (optional) |
-| TEXT | 155×18 | Bitmap font (31×3 grid of 5×6 chars) |
-| EQMAIN | 275×315 | EQ window: background, buttons, sliders, graph |
-| EQ_EX | 275×56 | EQ shade mode (optional) |
-| PLEDIT | 276×110 | Playlist: title bars, borders, scrollbar |
-| GEN | 275×116 | Reserved (optional) |
-| GENEX | 275×116 | Reserved (optional) |
+| MAIN.PNG | 275×116 | Main window background |
+| TITLEBAR.PNG | 302×56 | Title bars, window buttons, shade mode |
+| CBUTTONS.PNG | 136×36 | Transport buttons × 2 states |
+| VOLUME.PNG | 68×433 | 28 volume frames + 2 thumbs |
+| BALANCE.PNG | 68×433 | 28 balance frames (read from x=9, w=38) + 2 thumbs |
+| POSBAR.PNG | 307×10 | Seek bar + 2 thumbs |
+| SHUFREP.PNG | 92×85 | Shuffle/repeat/EQ/PL toggles, all 4 states |
+| PLAYPAUS.PNG | 42×9 | Play/pause/stop indicators |
+| MONOSTER.PNG | 56×24 | Mono/stereo indicators |
+| NUMBERS.PNG | 99×13 | Time digits 0–9 + two 5×1 minus dashes |
+| NUMS_EX.PNG | 99×13 | Reserved HD digit atlas (currently unread) |
+| TEXT.PNG | 155×18 | Bitmap font (31×3 grid of 5×6 chars) |
+| EQMAIN.PNG | 275×315 | EQ window: background, buttons, sliders, graph |
+| EQ_EX.PNG | 275×56 | EQ shade mode sprites |
+| PLEDIT.PNG | 276×110 | Playlist: title bars, borders, scrollbar |
+| GEN.PNG | 275×116 | Reserved (currently unread) |
+| GENEX.PNG | 275×116 | Reserved HD variant (currently unread) |
 
-See [`SKIN_FORMAT.md`](../docs/skin-format/SKIN_FORMAT.md) and [`LAYOUT_SPEC.md`](../docs/skin-format/LAYOUT_SPEC.md) for the complete region coordinate reference, and [`docs/figma-plugin/README.md`](../docs/figma-plugin/README.md) for the end-to-end plugin workflow.
+The pixel-exact regions inside each atlas are documented in the
+[Layout Spec](https://github.com/fanfare-io/minamp-app/blob/main/docs/skin-format/LAYOUT_SPEC.md).
+The end-to-end plugin walk-through with screenshots is in the
+[Figma plugin guide](https://github.com/fanfare-io/minamp-app/blob/main/docs/figma-plugin/README.md).
+
+## Development
+
+```bash
+npm install        # one-time
+npm run typecheck  # TypeScript checks
+npm run build      # one-shot build to dist/
+npm run watch      # rebuild on save
+```
+
+The plugin has two threads:
+
+- **Sandbox** (`src/plugin/`) — runs in Figma's QuickJS sandbox, has
+  access to the `figma.*` API but no DOM. Bundled to `dist/plugin.js`.
+- **UI** (`src/ui/`) — React iframe with DOM access, used for the
+  `.msz` packaging (JSZip), config editors, and validation UI. Bundled
+  inline into `dist/ui.html`.
+
+Reload the plugin in Figma after each rebuild (the watch mode keeps the
+output up to date, but Figma caches the script).
+
+## Bugs and feature requests
+
+Open an issue at
+[github.com/fanfare-io/minamp-app](https://github.com/fanfare-io/minamp-app/issues).
+Use the **Skin / plugin bug** template for plugin-specific issues; attach
+the `.msz` file and a screen recording where possible.
+
+## License
+
+MIT — see [LICENSE](https://github.com/fanfare-io/minamp-app/blob/main/LICENSE).

@@ -1,6 +1,10 @@
 # Node
 node_modules/
 dist/
+# The Figma plugin's built output is intentionally tracked so Figma can
+# install it directly from the manifest (see figma-skin-plugin/.gitignore).
+!figma-skin-plugin/dist/
+!figma-skin-plugin/dist/**
 build/
 *.log
 npm-debug.log*

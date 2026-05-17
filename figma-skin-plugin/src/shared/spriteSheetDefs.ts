@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------
 // Sprite sheet definitions for all Winamp skin sprite sheets.
 // Coordinates are in 1x skin pixels — multiply by assetScale for actual PNGs.
-// Sourced from SpriteExtractor.swift and SKIN_FORMAT.md.
+// Sourced from docs/skin-format/SKIN_FORMAT.md and LAYOUT_SPEC.md.
 // ---------------------------------------------------------------------------
 
 export interface SpriteRegion {
@@ -135,8 +135,29 @@ const VOLUME: SpriteSheetDef = {
 };
 
 // ---------------------------------------------------------------------------
-// BALANCE.PNG — Balance slider (optional, same layout as VOLUME)
+// BALANCE.PNG — Balance slider (optional).
+// Atlas is 68 wide to match VOLUME, but the renderer only reads a 38-wide
+// strip starting at x=9. The leftmost 9 columns are unused padding (a
+// long-standing Winamp/webamp convention).
 // ---------------------------------------------------------------------------
+
+function buildBalanceRegions(): SpriteRegion[] {
+  const regions: SpriteRegion[] = [];
+  for (let i = 0; i < 28; i++) {
+    regions.push({
+      name: `Balance frame ${i}`,
+      x: 9,
+      y: i * 15,
+      width: 38,
+      height: 15,
+    });
+  }
+  regions.push(
+    { name: "Thumb pressed", x: 0, y: 422, width: 14, height: 11 },
+    { name: "Thumb normal", x: 15, y: 422, width: 14, height: 11 },
+  );
+  return regions;
+}
 
 const BALANCE: SpriteSheetDef = {
   fileName: "BALANCE.PNG",
@@ -144,7 +165,7 @@ const BALANCE: SpriteSheetDef = {
   width: 68,
   height: 433,
   required: false,
-  regions: buildVolumeRegions(),
+  regions: buildBalanceRegions(),
 };
 
 // ---------------------------------------------------------------------------
@@ -185,11 +206,15 @@ const SHUFREP: SpriteSheetDef = {
     { name: "Shuffle off pressed", x: 28, y: 15, width: 47, height: 15 },
     { name: "Shuffle on", x: 28, y: 30, width: 47, height: 15 },
     { name: "Shuffle on pressed", x: 28, y: 45, width: 47, height: 15 },
-    // EQ and PL toggles (23x12)
+    // EQ and PL toggles (23x12) — normal at x=0..45, pressed at x=46..91
     { name: "EQ off", x: 0, y: 61, width: 23, height: 12 },
     { name: "EQ on", x: 0, y: 73, width: 23, height: 12 },
     { name: "PL off", x: 23, y: 61, width: 23, height: 12 },
     { name: "PL on", x: 23, y: 73, width: 23, height: 12 },
+    { name: "EQ off pressed", x: 46, y: 61, width: 23, height: 12 },
+    { name: "EQ on pressed", x: 46, y: 73, width: 23, height: 12 },
+    { name: "PL off pressed", x: 69, y: 61, width: 23, height: 12 },
+    { name: "PL on pressed", x: 69, y: 73, width: 23, height: 12 },
   ],
 };
 
@@ -232,6 +257,12 @@ const MONOSTER: SpriteSheetDef = {
 // NUMBERS.PNG — Time display digits
 // ---------------------------------------------------------------------------
 
+// 10 digit cells (0–9) plus two 5×1 "minus dash" overlays. The dashes sit
+// inside the digit-1 and digit-2 cells at y=6 — `noMinusDash` is the
+// transparent erasure used in elapsed-time mode and `minusDash` is the
+// visible hyphen used in remaining-time mode. The rightmost 9 columns of
+// the 99-wide atlas (x=90..98) are unused by the renderer but kept for
+// classic Winamp atlas-size compatibility.
 const NUMBERS: SpriteSheetDef = {
   fileName: "NUMBERS.PNG",
   frameName: "NUMBERS",
@@ -249,12 +280,15 @@ const NUMBERS: SpriteSheetDef = {
     { name: "Digit 7", x: 63, y: 0, width: 9, height: 13 },
     { name: "Digit 8", x: 72, y: 0, width: 9, height: 13 },
     { name: "Digit 9", x: 81, y: 0, width: 9, height: 13 },
-    { name: "Minus", x: 90, y: 0, width: 9, height: 13 },
+    { name: "No-minus dash", x: 9, y: 6, width: 5, height: 1 },
+    { name: "Minus dash", x: 20, y: 6, width: 5, height: 1 },
   ],
 };
 
 // ---------------------------------------------------------------------------
-// NUMS_EX.PNG — Extended time display digits (optional)
+// NUMS_EX.PNG — Reserved HD digit atlas (parsed but not yet rendered).
+// The skin loader decodes this file when present but the renderer always
+// uses NUMBERS.PNG. Layout mirrors NUMBERS for future-compatibility.
 // ---------------------------------------------------------------------------
 
 const NUMS_EX: SpriteSheetDef = {
@@ -274,7 +308,8 @@ const NUMS_EX: SpriteSheetDef = {
     { name: "Digit 7", x: 63, y: 0, width: 9, height: 13 },
     { name: "Digit 8", x: 72, y: 0, width: 9, height: 13 },
     { name: "Digit 9", x: 81, y: 0, width: 9, height: 13 },
-    { name: "Minus", x: 90, y: 0, width: 9, height: 13 },
+    { name: "No-minus dash", x: 9, y: 6, width: 5, height: 1 },
+    { name: "Minus dash", x: 20, y: 6, width: 5, height: 1 },
   ],
 };
 
@@ -289,12 +324,12 @@ const TEXT: SpriteSheetDef = {
   height: 18,
   required: true,
   regions: [
-    // Row 0: A-Z, quote, @, (2 unused), space
+    // Row 0 (cols 0..30): A-Z, ", @, blank, blank, space
     { name: "Row 0: A-Z, quote, @, space", x: 0, y: 0, width: 155, height: 6 },
-    // Row 1: 0-9, punctuation
-    { name: "Row 1: 0-9, punctuation", x: 0, y: 6, width: 155, height: 6 },
-    // Row 2: comma, =, $, #, unused
-    { name: "Row 2: comma, =, $, #", x: 0, y: 12, width: 155, height: 6 },
+    // Row 1 (cols 0..30): 0-9, ellipsis, .:()-'!_+\\/[]^&%, ,=$#
+    { name: "Row 1: 0-9, punctuation, ,=$#", x: 0, y: 6, width: 155, height: 6 },
+    // Row 2 (cols 0..4): Å Ö Ä ? *, rest blank
+    { name: "Row 2: Å Ö Ä ? *", x: 0, y: 12, width: 155, height: 6 },
   ],
 };
 
@@ -435,7 +470,9 @@ const PLEDIT: SpriteSheetDef = {
 };
 
 // ---------------------------------------------------------------------------
-// GEN.PNG — Generic/fallback window background (optional)
+// GEN.PNG — Reserved generic-window atlas (parsed but not yet rendered).
+// Decoded by the skin loader when present, but the current renderer never
+// composites it. Reserved for a future generic-panel mode.
 // ---------------------------------------------------------------------------
 
 const GEN: SpriteSheetDef = {
@@ -450,7 +487,8 @@ const GEN: SpriteSheetDef = {
 };
 
 // ---------------------------------------------------------------------------
-// GENEX.PNG — Extended generic window background (optional)
+// GENEX.PNG — Reserved HD generic-window atlas (parsed but not yet rendered).
+// Same status as GEN.PNG — loaded but not composited.
 // ---------------------------------------------------------------------------
 
 const GENEX: SpriteSheetDef = {
@@ -503,7 +541,7 @@ export const MAIN_WINDOW_PLACEMENT: ElementPlacement[] = [
   { name: "Second ones digit", x: 90, y: 26, width: 9, height: 13 },
   { name: "Marquee text", x: 111, y: 27, width: 154, height: 6 },
   { name: "kbps text", x: 111, y: 43, width: 15, height: 6 },
-  { name: "khz text", x: 156, y: 43, width: 15, height: 6 },
+  { name: "khz text", x: 156, y: 43, width: 10, height: 6 },
   { name: "Mono indicator", x: 212, y: 41, width: 27, height: 12 },
   { name: "Stereo indicator", x: 239, y: 41, width: 29, height: 12 },
   { name: "Visualizer", x: 24, y: 43, width: 76, height: 16 },

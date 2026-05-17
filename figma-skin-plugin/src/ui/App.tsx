@@ -264,6 +264,16 @@ export function App(): React.ReactElement {
           setAssets((prev) => prev.filter((a) => a.name !== msg.name));
           break;
 
+        case "SWITCH_VIEW": {
+          const tabForView: Record<typeof msg.view, TabId> = {
+            "generate-template": "create",
+            "validate": "export",
+            "export": "export",
+          };
+          setActiveTab(tabForView[msg.view]);
+          break;
+        }
+
         case "ERROR":
           setError(msg.message);
           break;
