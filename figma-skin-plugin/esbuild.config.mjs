@@ -5,6 +5,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isWatch = process.argv.includes("--watch");
+// Minify in production (non-watch) builds. Watch keeps output readable
+// so source-mapped errors stay legible during development.
+const minify = !isWatch;
 
 // Build plugin (sandbox thread)
 // Figma's plugin sandbox uses a restricted JS engine (QuickJS-based) that
@@ -17,6 +20,7 @@ const pluginConfig = {
   format: "iife",
   target: "es2017",
   platform: "browser",
+  minify,
   logLevel: "info",
 };
 
@@ -35,6 +39,7 @@ const uiConfig = {
     ".tsx": "tsx",
     ".ts": "ts",
   },
+  minify,
   logLevel: "info",
 };
 
