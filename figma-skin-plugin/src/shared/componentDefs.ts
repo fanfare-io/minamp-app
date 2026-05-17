@@ -103,6 +103,21 @@ function buildVolumeSliderPlacements(): VariantPlacement[] {
   return placements;
 }
 
+// Balance frames live at x=9 inside a 68-wide BALANCE.PNG; the leftmost
+// 9 columns are unused padding that the renderer skips. Same vertical
+// layout as Volume (28 frames on a 15-px stride).
+function buildBalanceSliderPlacements(): VariantPlacement[] {
+  const placements: VariantPlacement[] = [];
+  for (let i = 0; i < 28; i++) {
+    placements.push({
+      variantValues: { "Frame": String(i) },
+      x: 9,
+      y: i * 15,
+    });
+  }
+  return placements;
+}
+
 function buildEQSliderFramePlacements(): VariantPlacement[] {
   const placements: VariantPlacement[] = [];
   for (let i = 0; i < 28; i++) {
@@ -397,14 +412,17 @@ export const COMPONENT_DEFS: ComponentDef[] = [
     required: true,
     variants: [
       { name: "Active", values: ["Off", "On"] },
+      { name: "State", values: ["Normal", "Pressed"] },
     ],
     target: {
       fileName: "SHUFREP.PNG",
       sheetWidth: 92,
       sheetHeight: 85,
       placements: [
-        { variantValues: { "Active": "Off" }, x: 0, y: 61 },
-        { variantValues: { "Active": "On" }, x: 0, y: 73 },
+        { variantValues: { "Active": "Off", "State": "Normal" }, x: 0, y: 61 },
+        { variantValues: { "Active": "On", "State": "Normal" }, x: 0, y: 73 },
+        { variantValues: { "Active": "Off", "State": "Pressed" }, x: 46, y: 61 },
+        { variantValues: { "Active": "On", "State": "Pressed" }, x: 46, y: 73 },
       ],
     },
   },
@@ -417,14 +435,17 @@ export const COMPONENT_DEFS: ComponentDef[] = [
     required: true,
     variants: [
       { name: "Active", values: ["Off", "On"] },
+      { name: "State", values: ["Normal", "Pressed"] },
     ],
     target: {
       fileName: "SHUFREP.PNG",
       sheetWidth: 92,
       sheetHeight: 85,
       placements: [
-        { variantValues: { "Active": "Off" }, x: 23, y: 61 },
-        { variantValues: { "Active": "On" }, x: 23, y: 73 },
+        { variantValues: { "Active": "Off", "State": "Normal" }, x: 23, y: 61 },
+        { variantValues: { "Active": "On", "State": "Normal" }, x: 23, y: 73 },
+        { variantValues: { "Active": "Off", "State": "Pressed" }, x: 69, y: 61 },
+        { variantValues: { "Active": "On", "State": "Pressed" }, x: 69, y: 73 },
       ],
     },
   },
@@ -598,9 +619,9 @@ export const COMPONENT_DEFS: ComponentDef[] = [
     sliderFrameCount: 28,
     target: {
       fileName: "BALANCE.PNG",
-      sheetWidth: 38,
+      sheetWidth: 68,
       sheetHeight: 433,
-      placements: buildVolumeSliderPlacements(),
+      placements: buildBalanceSliderPlacements(),
     },
   },
 
@@ -615,7 +636,7 @@ export const COMPONENT_DEFS: ComponentDef[] = [
     ],
     target: {
       fileName: "BALANCE.PNG",
-      sheetWidth: 38,
+      sheetWidth: 68,
       sheetHeight: 433,
       placements: [
         { variantValues: { "State": "Normal" }, x: 15, y: 422 },
@@ -1021,7 +1042,8 @@ export const COMPONENT_DEFS: ComponentDef[] = [
   //    `EQ Shade BG`. Its pressed sprite lives at EQ_EX.PNG (1, 47).
   //
   // Neither rect ever represents a "normal" state, so both components have
-  // `variants: []`. Semantics match SpriteExtractor.extractEQShadeSprites.
+  // `variants: []`. See docs/skin-format/LAYOUT_SPEC.md §4 for the
+  // full-mode + shade-mode shade-button semantics.
   {
     name: "EQ Full Shade Pressed",
     section: "EQ Shade",
@@ -1363,13 +1385,14 @@ export const MAIN_WINDOW_PREVIEW: PreviewFrameDef = {
     { componentName: "Shade Button", variantValues: { "State": "Normal" }, x: 254, y: 3 },
     // Play status
     { componentName: "Play Status", variantValues: { "State": "Playing" }, x: 24, y: 28 },
-    // Time digits — the full component is a 99×13 strip of all 11 cells
-    // (-, 0..9). Dropping it in whole would show every digit at once and
-    // overflow the surrounding overlays. At runtime the renderer pulls
-    // four 9×13 cells at positions mirrored below (see
-    // MainWindowView.buildTimeDisplay) and paints the colon as part of
-    // the Main Background at x=69..78. Preview renders "12:34" by
-    // clipping four instances to the appropriate digit cells.
+    // Time digits — the full component is a 99×13 strip of 10 digit cells
+    // (0..9) plus two 5×1 "minus dash" overlays embedded inside the
+    // digit-1 and digit-2 cells at y=6. Dropping the whole strip in would
+    // show every digit at once and overflow the surrounding overlays, so
+    // at runtime four 9×13 cells are pulled at the positions mirrored
+    // below and the colon is painted as part of the Main Background at
+    // x=69..78. Preview renders "12:34" by clipping four instances to
+    // the appropriate digit cells.
     { componentName: "Time Digits", variantValues: {}, x: 48, y: 26, crop: { sourceX: 9, sourceY: 0, width: 9, height: 13 } },   // "1"
     { componentName: "Time Digits", variantValues: {}, x: 60, y: 26, crop: { sourceX: 18, sourceY: 0, width: 9, height: 13 } },  // "2"
     { componentName: "Time Digits", variantValues: {}, x: 78, y: 26, crop: { sourceX: 27, sourceY: 0, width: 9, height: 13 } },  // "3"
@@ -1390,8 +1413,8 @@ export const MAIN_WINDOW_PREVIEW: PreviewFrameDef = {
     { componentName: "Balance Track", variantValues: { "Part": "BG" }, x: 177, y: 57 },
     { componentName: "Balance Thumb", variantValues: { "State": "Normal" }, x: 189, y: 57 },
     // Toggles
-    { componentName: "EQ Toggle", variantValues: { "Active": "Off" }, x: 219, y: 58 },
-    { componentName: "PL Toggle", variantValues: { "Active": "Off" }, x: 242, y: 58 },
+    { componentName: "EQ Toggle", variantValues: { "Active": "Off", "State": "Normal" }, x: 219, y: 58 },
+    { componentName: "PL Toggle", variantValues: { "Active": "Off", "State": "Normal" }, x: 242, y: 58 },
     // Transport buttons
     { componentName: "Previous Button", variantValues: { "State": "Normal" }, x: 16, y: 88 },
     { componentName: "Play Button", variantValues: { "State": "Normal" }, x: 39, y: 88 },
@@ -1414,7 +1437,7 @@ export const EQ_WINDOW_PREVIEW: PreviewFrameDef = {
   width: 275,
   height: 116,
   // Placement order = render order (later placements render ON TOP).
-  // Match the Swift renderer's z-stack: background → tracks → buttons →
+  // Match the Minamp app's z-stack: background → tracks → buttons →
   // graph → thumbs → title chrome. Buttons and graph would be hidden
   // behind the slider tracks if listed before them.
   placements: [
@@ -1422,7 +1445,7 @@ export const EQ_WINDOW_PREVIEW: PreviewFrameDef = {
     { componentName: "EQ Background", variantValues: {}, x: 0, y: 0 },
     // Slider tracks first — they extend up into the button row at y=18 and
     // would obscure the buttons if rendered later.
-    // Track and thumb share the same x per the Swift renderer.
+    // Track and thumb share the same x per the Minamp app.
     // Preamp at x=21; bands follow at 18 px spacing starting at x=78.
     // See docs/skin-format/LAYOUT_SPEC.md.
     // Preview uses Part=BG so the static preview shows the empty track; the
@@ -1439,7 +1462,7 @@ export const EQ_WINDOW_PREVIEW: PreviewFrameDef = {
     { componentName: "EQ Slider Track", variantValues: { "Part": "BG" }, x: 222, y: 38 },
     { componentName: "EQ Slider Track", variantValues: { "Part": "BG" }, x: 240, y: 38 },
     // Buttons + graph — placed AFTER tracks so they render on top of the
-    // overlapping y=18 portion of the tracks (matches the Swift renderer).
+    // overlapping y=18 portion of the tracks (matches the Minamp app).
     { componentName: "EQ ON Toggle", variantValues: { "Active": "Off", "State": "Normal" }, x: 14, y: 18 },
     { componentName: "EQ AUTO Toggle", variantValues: { "Active": "Off", "State": "Normal" }, x: 40, y: 18 },
     { componentName: "EQ PRESETS Button", variantValues: { "State": "Normal" }, x: 217, y: 18 },
@@ -1447,7 +1470,7 @@ export const EQ_WINDOW_PREVIEW: PreviewFrameDef = {
     // Slider thumbs render above tracks. Thumb default y=64 is the 0 dB
     // resting position (range y=38..90, 52 px travel). Thumb x is
     // track x + 2 — the 11-wide thumb is centered in the 15-wide
-    // track: (15 - 11) / 2 = 2. See SkinVerticalSlider.swift line 69.
+    // track: (15 - 11) / 2 = 2. See docs/skin-format/LAYOUT_SPEC.md §3.
     { componentName: "EQ Slider Thumb", variantValues: { "State": "Normal" }, x: 23, y: 64 },
     { componentName: "EQ Slider Thumb", variantValues: { "State": "Normal" }, x: 80, y: 64 },
     { componentName: "EQ Slider Thumb", variantValues: { "State": "Normal" }, x: 98, y: 64 },
@@ -1469,7 +1492,7 @@ export const EQ_WINDOW_PREVIEW: PreviewFrameDef = {
 /**
  * Playlist window preview — 275x232 (default size).
  * Title bar: 20px, body: 174px (6 x 29px border tiles), bottom bar: 38px.
- * Positions sourced from PlaylistWindowView.swift constants.
+ * Positions sourced from docs/skin-format/LAYOUT_SPEC.md §5.
  */
 export const PLAYLIST_PREVIEW: PreviewFrameDef = {
   name: "Playlist",
@@ -1504,9 +1527,11 @@ export const PLAYLIST_PREVIEW: PreviewFrameDef = {
     // Scroll handle: x = w - rightBorderWidth + 6 = 275 - 20 + 6 = 261
     // y = titleBarHeight + 2 = 20 + 2 = 22 (default position when scrolled to top)
     { componentName: "PL Scroll Handle", variantValues: { "State": "Normal" }, x: 261, y: 22 },
-    // Bottom bar (y = 232 - 38 = 194)
+    // Bottom bar (y = 232 - 38 = 194). At the default 275 px width
+    // there's no gap between Bottom Left (0..125) and Bottom Right
+    // (125..275), so no fill tiles fit in this preview. At larger
+    // playlist widths the renderer tiles "PL Bottom Fill" between them.
     { componentName: "PL Bottom Left", variantValues: {}, x: 0, y: 194 },
-    { componentName: "PL Bottom Fill", variantValues: {}, x: 125, y: 194 },
     { componentName: "PL Bottom Right", variantValues: {}, x: 125, y: 194 },
   ],
 };
@@ -1544,7 +1569,8 @@ export const OVERLAY_GUIDES: Record<string, OverlayGuide[]> = {
     // 9-px colon gap at x=69..78 that the designer paints into the
     // background. An extra cell at x=36 is only used in remaining-time
     // mode ("-MM:SS"). One guide per cell so the colon gap stays
-    // visually reserved. Matches MainWindowView.buildTimeDisplay.
+    // visually reserved. Matches the time-display layout in
+    // docs/skin-format/LAYOUT_SPEC.md §1.
     { label: "−", x: 36, y: 26, width: 9, height: 13 },
     { label: "M", x: 48, y: 26, width: 9, height: 13 },
     { label: "M", x: 60, y: 26, width: 9, height: 13 },
@@ -1576,15 +1602,13 @@ export const OVERLAY_GUIDES: Record<string, OverlayGuide[]> = {
     { label: "Repeat", x: 210, y: 89, width: 28, height: 15 },
   ],
   "Shade Background": [
-    // Mini Vis width is shrunk to 51 so the guide ends where Mini Time
-    // starts (x=130). The Swift renderer currently draws this layer 76
-    // wide (MainWindowView.swift buildShadeLayers), which overlaps the
-    // mini time text; that's a latent renderer bug and mismatches
-    // classic Winamp (~51 wide). Designers should paint for the
-    // non-overlapping layout; the renderer can be corrected separately.
-    { label: "Mini Vis", x: 79, y: 5, width: 51, height: 5 },
-    // Mini Time: 5 bitmap-font chars × 5 px = 25 wide, 6 tall. Earlier
-    // "~30 × 8" estimate in LAYOUT_SPEC was approximate.
+    // Mini Vis renders at (79, 5, 76, 5) — that's the full guide. Mini
+    // Time renders on top of the right ~25 px of it (x=130..155), so the
+    // visualizer's right end is partially obscured by the time digits at
+    // runtime. Design the leftmost ~51 px (x=79..130) as the focal vis
+    // area; don't put critical chrome in the overlap zone.
+    { label: "Mini Vis", x: 79, y: 5, width: 76, height: 5 },
+    // Mini Time: 5 bitmap-font chars × 5 px = 25 wide, 6 tall.
     { label: "Mini Time", x: 130, y: 4, width: 25, height: 6 },
     { label: "Prev hit", x: 169, y: 2, width: 7, height: 10 },
     { label: "Play hit", x: 176, y: 2, width: 10, height: 10 },

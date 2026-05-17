@@ -89,8 +89,12 @@ export async function generateTemplate(assetScale: number): Promise<void> {
   // Load the font we need for labels
   await figma.loadFontAsync({ family: "Inter", style: "Medium" });
 
-  // Store the scale on the page so validator/exporter can read it
+  // Store the scale on the page so validator/exporter can read it.
+  // Also clear any prior templateMode flag so a page previously populated
+  // by `generateComponentTemplate` doesn't keep routing validation and
+  // export through the component-mode code path.
   page.setPluginData(SCALE_PLUGIN_DATA_KEY, String(assetScale));
+  page.setPluginData("templateMode", "");
 
   // Remove existing template frames with the same names (avoid duplicates)
   const existingNames = new Set(SPRITE_SHEETS.map((s) => s.frameName.toUpperCase()));

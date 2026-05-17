@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import type { PleditConfig } from "../export/configFiles";
 
 interface ConfigPanelProps {
@@ -8,14 +8,16 @@ interface ConfigPanelProps {
   onPleditChange: (config: PleditConfig) => void;
 }
 
-// Default VISCOLOR values from ConfigParsers.swift (as hex)
+// Default VISCOLOR values (mirror classic Winamp defaults, as hex).
+// These must stay in sync with the reference VISCOLOR.TXT shipped in
+// docs/skin-format/template/.
 const DEFAULT_VISCOLORS: string[] = [
   "#000000", "#182129", "#EF3110", "#CE2910",
-  "#D65A00", "#D66600", "#D67300", "#C67B08",
+  "#D65A00", "#D66600", "#D67300", "#C67B00",
   "#DEA518", "#D6B521", "#BDDE29", "#94DE21",
-  "#29CE10", "#32BE10", "#39B510", "#39A521",
-  "#429431", "#429431", "#429431", "#429431",
-  "#429431", "#429431", "#429431", "#429431",
+  "#29CE10", "#32BE10", "#39B510", "#319C08",
+  "#299400", "#188408", "#FFFFFF", "#D6D6DE",
+  "#B5BDBD", "#A0AAAF", "#949CA5", "#969696",
 ];
 
 const DEFAULT_PLEDIT: PleditConfig = {
@@ -86,20 +88,6 @@ export function ConfigPanel({
   const handleResetPledit = useCallback(() => {
     onPleditChange({ ...DEFAULT_PLEDIT });
   }, [onPleditChange]);
-
-  // Persist to figma.clientStorage on changes
-  useEffect(() => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: "SAVE_CONFIG",
-          viscolors,
-          pledit,
-        },
-      },
-      "*"
-    );
-  }, [viscolors, pledit]);
 
   return (
     <div style={styles.container}>

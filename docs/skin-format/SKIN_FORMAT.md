@@ -21,17 +21,22 @@ MySkin.msz (ZIP archive)
 ├── SHUFREP.PNG        ← Shuffle, repeat, EQ, PL toggle buttons
 ├── MONOSTER.PNG       ← Mono/stereo indicators
 ├── NUMBERS.PNG        ← Time display digits
+├── NUMS_EX.PNG        ← Reserved HD digit atlas (optional, currently unread)
 ├── TEXT.PNG           ← Bitmap font for marquee/text display
 ├── PLAYPAUS.PNG       ← Play/pause/stop status indicators
 ├── EQMAIN.PNG         ← Equalizer window background and controls
-├── EQ_EX.PNG          ← EQ shade mode sprites
+├── EQ_EX.PNG          ← EQ shade mode sprites (optional)
 ├── PLEDIT.PNG         ← Playlist window sprites
+├── GEN.PNG            ← Reserved generic-window atlas (optional, currently unread)
+├── GENEX.PNG          ← Reserved HD generic-window atlas (optional, currently unread)
 ├── VISCOLOR.TXT       ← 24-line visualizer color palette
 ├── PLEDIT.TXT         ← Playlist colors and font (INI format)
 └── REGION.TXT         ← Non-rectangular window regions (optional)
 ```
 
 > Files may be in subdirectories within the archive — only the filename matters. Filenames are matched **case-insensitively** (they are uppercased before lookup).
+
+> **"Reserved (currently unread)"** atlases are loaded from the archive if present but the current Minamp renderer doesn't composite them. They're shipped in the templates and documented here so that skins remain forward-compatible.
 
 ## skin.json Manifest
 
@@ -178,7 +183,26 @@ Contains 28 volume slider background frames (showing fill level) stacked vertica
 
 ### BALANCE.PNG (Optional)
 
-Same layout as VOLUME.PNG. If omitted, the volume sprite sheet is reused for the balance slider.
+**1x dimensions:** 68 × 433 (same atlas footprint as VOLUME.PNG)
+
+Balance slider. The atlas is 68 px wide to match VOLUME.PNG, but the
+renderer only reads a **38 px-wide strip starting at x=9** for each
+frame — the leftmost 9 columns are unused padding (a long-standing
+Winamp/webamp convention). If `BALANCE.PNG` is omitted from the
+archive, the renderer falls back to `VOLUME.PNG`.
+
+#### Background Frames
+
+| Region | x | y | w | h | Description |
+|---|---|---|---|---|---|
+| Frame *i* (0–27) | 9 | *i* × 15 | 38 | 15 | Balance position frame |
+
+#### Thumb (same offsets as VOLUME.PNG)
+
+| Region | x | y | w | h | Description |
+|---|---|---|---|---|---|
+| Thumb pressed | 0 | 422 | 14 | 11 | Pressed/active thumb |
+| Thumb normal | 15 | 422 | 14 | 11 | Normal thumb |
 
 ---
 
@@ -220,14 +244,20 @@ Toggle buttons for shuffle, repeat, EQ window, and playlist window.
 | On | 0 | 30 | 28 | 15 | Active, normal |
 | On pressed | 0 | 45 | 28 | 15 | Active, pressed |
 
-#### EQ & PL Window Toggle Buttons (23×12, 2 states each)
+#### EQ & PL Window Toggle Buttons (23×12, 4 states each)
+
+Normal states live at x=0..45; pressed states at x=46..91.
 
 | Region | x | y | w | h | Description |
 |---|---|---|---|---|---|
-| EQ off | 0 | 61 | 23 | 12 | EQ window closed |
-| EQ on | 0 | 73 | 23 | 12 | EQ window open |
-| PL off | 23 | 61 | 23 | 12 | Playlist window closed |
-| PL on | 23 | 73 | 23 | 12 | Playlist window open |
+| EQ off | 0 | 61 | 23 | 12 | EQ window closed, normal |
+| EQ on | 0 | 73 | 23 | 12 | EQ window open, normal |
+| PL off | 23 | 61 | 23 | 12 | Playlist window closed, normal |
+| PL on | 23 | 73 | 23 | 12 | Playlist window open, normal |
+| EQ off pressed | 46 | 61 | 23 | 12 | EQ window closed, pressed |
+| EQ on pressed | 46 | 73 | 23 | 12 | EQ window open, pressed |
+| PL off pressed | 69 | 61 | 23 | 12 | Playlist window closed, pressed |
+| PL on pressed | 69 | 73 | 23 | 12 | Playlist window open, pressed |
 
 ---
 
@@ -264,7 +294,11 @@ Mono/stereo channel indicators with on/off states.
 
 **1x dimensions:** 99 × 13
 
-Time display digit sprites arranged horizontally.
+Time-display digit sprites arranged horizontally, plus two tiny
+minus-dash overlays used when the time display switches into
+"remaining time" mode.
+
+#### Digits
 
 | Region | x | y | w | h | Description |
 |---|---|---|---|---|---|
@@ -278,7 +312,28 @@ Time display digit sprites arranged horizontally.
 | Digit 7 | 63 | 0 | 9 | 13 | |
 | Digit 8 | 72 | 0 | 9 | 13 | |
 | Digit 9 | 81 | 0 | 9 | 13 | |
-| Minus (−) | 90 | 0 | 9 | 13 | |
+
+#### Minus-dash overlays
+
+These 5×1 regions sit **inside** the digit-1 and digit-2 cells at y=6.
+The renderer overlays one of them onto the leftmost time slot to
+toggle between elapsed and remaining time mode.
+
+| Region | x | y | w | h | Description |
+|---|---|---|---|---|---|
+| No-minus dash | 9 | 6 | 5 | 1 | Transparent erasure — draws over the leftmost slot when showing elapsed time |
+| Minus dash | 20 | 6 | 5 | 1 | Visible hyphen — draws over the leftmost slot when showing remaining time |
+
+> The rightmost 9 columns of the atlas (x=90..98) are unused by the
+> renderer but kept inside the 99-wide canvas for compatibility with
+> classic Winamp atlas dimensions.
+
+### NUMS_EX.PNG (Reserved, currently unread)
+
+**1x dimensions:** 99 × 13. Same layout as NUMBERS.PNG. Loaded by the
+parser when present but the current renderer doesn't composite it —
+reserved for future high-density digit support. Shipping it is
+optional and has no visible effect today.
 
 ---
 
@@ -303,7 +358,7 @@ Bitmap font for the scrolling marquee and text displays. Characters are **5×6 p
 | Columns | Characters |
 |---|---|
 | 0–9 | `0 1 2 3 4 5 6 7 8 9` |
-| 10 | `…` (ellipsis) |
+| 10 | `…` (ellipsis, single glyph) |
 | 11 | `.` (period) |
 | 12 | `:` (colon) |
 | 13 | `(` |
@@ -320,18 +375,30 @@ Bitmap font for the scrolling marquee and text displays. Characters are **5×6 p
 | 24 | `^` |
 | 25 | `&` |
 | 26 | `%` |
+| 27 | `,` (comma) |
+| 28 | `=` |
+| 29 | `$` |
+| 30 | `#` |
 
-#### Row 2 (y = 12): Additional Punctuation
+#### Row 2 (y = 12): Scandinavian Letters
 
 | Columns | Characters |
 |---|---|
-| 0 | `,` (comma) |
-| 1 | `=` |
-| 2 | `$` |
-| 3 | `#` |
-| 4–30 | (unused) |
+| 0 | `Å` |
+| 1 | `Ö` |
+| 2 | `Ä` |
+| 3 | `?` |
+| 4 | `*` |
+| 5–30 | (unused) |
 
 > The font is case-insensitive — lowercase letters use the same glyphs as uppercase.
+>
+> **History:** older drafts of this spec placed `,=$#` at row 2 cols 0–3.
+> The renderer was always wrong-looking under that mapping, and the
+> layout was corrected to match the original Winamp character table
+> (`,=$#` at row 1 cols 27–30; `Å Ö Ä ? *` at row 2 cols 0–4). If you
+> have an in-progress skin authored against the old layout, move those
+> four punctuation glyphs into row 1 cols 27–30 before exporting.
 
 ---
 
@@ -502,6 +569,15 @@ Playlist window sprites — title bar segments, borders, scrollbar, and bottom s
 
 ---
 
+### GEN.PNG / GENEX.PNG (Reserved, currently unread)
+
+**1x dimensions:** 275 × 116. Generic and HD generic window atlases.
+Loaded by the parser when present but the current renderer doesn't
+composite them. Reserved for a future generic-panel mode; shipping
+them is optional and has no visible effect today.
+
+---
+
 ## Configuration Files
 
 ### VISCOLOR.TXT
@@ -551,7 +627,7 @@ These positions define where sprites are composited onto the 275×116 main windo
 |---|---|---|---|
 | Title bar | 0 | 0 | 275×14 |
 | Play status light | 24 | 28 | 9×9 |
-| Time minus sign | 36 | 26 | 9×13 |
+| Time minus slot | 36 | 26 | 9×13 — reserves space for the leftmost dash overlay in remaining-time mode |
 | Minute tens digit | 48 | 26 | 9×13 |
 | Minute ones digit | 60 | 26 | 9×13 |
 | Second tens digit | 78 | 26 | 9×13 |
@@ -593,6 +669,41 @@ These positions define where sprites are composited onto the 275×116 main windo
 | Graph display | 86 | 17 | 113×19 |
 | Preamp slider | 21 | 38 | 15×63 |
 | Band sliders | 78, 96, 114, 132, 150, 168, 186, 204, 222, 240 | 38 | 15×63 each |
+
+## Reference Template Assets
+
+The reference templates live in [`template/`](template/) — a complete
+known-good skin (`Template.msz` plus the unpacked PNGs, manifest, and
+config files). They show every sprite region with labeled outlines and
+make a useful starting point for an image editor.
+
+The templates are generated from the SVGs in [`svg/`](svg/) by
+[`generate_templates.py`](generate_templates.py). If you update a
+sprite region's position, dimensions, or layout in this spec, also
+update the matching SVG (or the Python generator) and regenerate.
+
+Three steps; do not skip step 2 or 3:
+
+```bash
+# 1. Regenerate. The script writes PNGs into docs/skin-format/, NOT into template/.
+#    Requires librsvg (macOS: brew install librsvg).
+python3 docs/skin-format/generate_templates.py
+
+# 2. Move any PNGs whose layout changed into template/. (Atlases whose
+#    output didn't change can be deleted from docs/skin-format/ untouched.)
+mv docs/skin-format/{ATLAS1,ATLAS2}.PNG docs/skin-format/template/
+
+# 3. Rebuild Template.msz so the committed archive matches the new PNGs.
+cd docs/skin-format/template && rm -f Template.msz && \
+  zip -q Template.msz *.PNG *.TXT skin.json
+```
+
+A quick way to confirm which atlases actually changed before step 2:
+
+```bash
+cd docs/skin-format && \
+  for f in *.PNG; do cmp -s "$f" "template/$f" || echo "$f changed"; done
+```
 
 ## Tips for Skin Authors
 

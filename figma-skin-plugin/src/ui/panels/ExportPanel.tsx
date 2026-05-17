@@ -202,17 +202,20 @@ export function ExportPanel({
           Asset scale: {assetScale}x
         </div>
 
-        <label style={styles.checkboxRow}>
-          <input
-            type="checkbox"
-            checked={debugDump}
-            onChange={(e) => setDebugDump(e.target.checked)}
-            disabled={isExporting}
-          />
-          <span>
-            Dump debug PNGs alongside the .msz (<code>{skinName}.debug.zip</code>)
-          </span>
-        </label>
+        <details style={styles.advancedSection}>
+          <summary style={styles.advancedSummary}>Advanced</summary>
+          <label style={styles.checkboxRow}>
+            <input
+              type="checkbox"
+              checked={debugDump}
+              onChange={(e) => setDebugDump(e.target.checked)}
+              disabled={isExporting}
+            />
+            <span>
+              Dump debug PNGs alongside the .msz (<code>{skinName}.debug.zip</code>)
+            </span>
+          </label>
+        </details>
 
         <button
           style={{
@@ -324,6 +327,16 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "11px",
     color: "var(--figma-color-text, #333)",
     cursor: "pointer",
+  },
+  advancedSection: {
+    marginTop: "4px",
+  },
+  advancedSummary: {
+    fontSize: "11px",
+    color: "var(--figma-color-text-secondary, #999)",
+    cursor: "pointer",
+    padding: "2px 0",
+    userSelect: "none",
   },
   validateButton: {
     padding: "6px 12px",

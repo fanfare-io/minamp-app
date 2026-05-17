@@ -96,7 +96,13 @@ export async function assembleSheets(
     const sheetVariants = variantsBySheet.get(fileName) || [];
     for (const v of sheetVariants) {
       const placement = findPlacement(v.target, v.variantValues);
-      if (!placement) continue;
+      if (!placement) {
+        console.warn(
+          `[sheetAssembler] No placement found for ${v.componentName} on ${fileName} ` +
+            `with variants ${JSON.stringify(v.variantValues)}; sprite skipped.`,
+        );
+        continue;
+      }
 
       const img = await loadImage(v.bytes);
       // Placement coordinates are in 1x skin pixels; the exported PNG is
@@ -134,19 +140,26 @@ export async function assembleSheets(
 /**
  * Find the placement coordinates for a variant within a SpriteSheetTarget.
  * Matches variant values against the placements defined in the target.
+ *
+ * Returns null if no placement matches. The caller logs a warning so
+ * silently-dropped variants are at least visible in the console — a
+ * mismatched variantValues schema between componentDefs.ts and the
+ * authored Figma ComponentSet is almost always a bug.
  */
 function findPlacement(
   target: SpriteSheetTarget,
   variantValues: Record<string, string>,
 ): { x: number; y: number } | null {
+  const inputKeys = Object.keys(variantValues);
   for (const p of target.placements) {
-    const keys = Object.keys(p.variantValues);
-    const matches = keys.every((k) => variantValues[k] === p.variantValues[k]);
-    // For components with no variant axes, placements have empty variantValues
-    if (keys.length === 0 && Object.keys(variantValues).length === 0) {
+    const placementKeys = Object.keys(p.variantValues);
+    // Empty placement matches only empty input (variantless component).
+    if (placementKeys.length === 0 && inputKeys.length === 0) {
       return { x: p.x, y: p.y };
     }
-    if (matches && keys.length > 0) {
+    // Otherwise every placement key must match the input value at that key.
+    if (placementKeys.length > 0 &&
+        placementKeys.every((k) => variantValues[k] === p.variantValues[k])) {
       return { x: p.x, y: p.y };
     }
   }

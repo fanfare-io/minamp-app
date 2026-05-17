@@ -2,7 +2,7 @@
 
 Thanks for your interest in contributing. This repo holds the Figma skin plugin and the HD skin-format spec for Minamp; contributions in both areas are welcome.
 
-The Minamp app itself (Swift/AppKit) is closed-source and lives in a separate private repository, so app-level code changes can't be made here — but bug reports, skin authoring tools, and format work all happen in this repo.
+The Minamp app itself is closed-source and lives in a separate private repository, so app-level code changes can't be made here — but bug reports, skin authoring tools, and format work all happen in this repo.
 
 ## Ways to contribute
 
@@ -26,7 +26,7 @@ Load the built plugin in Figma desktop via **Plugins → Development → Import 
 
 - **TypeScript** — double quotes, no casts to `any` outside tests. `tsconfig.json` is authoritative; `npm run typecheck` must pass.
 - **Commits** — conventional-commits style: `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `ci:`, `style:`, `perf:`.
-- **Skin-format changes** — if you touch sprite rectangles, update both [`docs/skin-format/LAYOUT_SPEC.md`](docs/skin-format/LAYOUT_SPEC.md) and [`figma-skin-plugin/src/shared/componentDefs.ts`](figma-skin-plugin/src/shared/componentDefs.ts) in the same PR. The spec is the source of truth. Matching changes land in the private Minamp app separately — flag format-breaking changes in the PR description so the renderer can be updated in lockstep.
+- **Skin-format changes** — if you touch sprite rectangles, update both [`docs/skin-format/LAYOUT_SPEC.md`](docs/skin-format/LAYOUT_SPEC.md) and [`figma-skin-plugin/src/shared/componentDefs.ts`](figma-skin-plugin/src/shared/componentDefs.ts) in the same PR. The spec is the source of truth. Matching changes land in the closed-source Minamp app separately — flag format-breaking changes in the PR description so the app side can be updated in lockstep.
 
 ## PR flow
 

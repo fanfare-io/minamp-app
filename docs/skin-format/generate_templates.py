@@ -3,7 +3,7 @@
 Generate SVG template files for Minamp HD skins, then render to PNG at 2x scale.
 
 Each SVG shows labeled regions matching the sprite sheet layout defined in
-SpriteExtractor.swift. Regions are drawn at 2x scale (assetScale=2).
+SKIN_FORMAT.md. Regions are drawn at 2x scale (assetScale=2).
 
 Usage: python3 generate_templates.py
 Requires: rsvg-convert (brew install librsvg)
@@ -132,11 +132,18 @@ def generate_volume():
 
 
 def generate_balance():
-    """BALANCE.PNG - same layout as VOLUME"""
-    _, w, h, svg = generate_volume()
-    # Replace VOLUME label references with BALANCE
-    svg = svg.replace("Vol ", "Bal ")
-    return "BALANCE", w, h, svg
+    """BALANCE.PNG - 68x433. Atlas matches VOLUME's footprint, but frames
+    are read from x=9 (38 wide); the leftmost 9 columns are unused
+    padding."""
+    w, h = s(68), s(433)
+    body = ""
+    # 28 background frames, read from x=9 wide=38
+    for i in range(28):
+        body += rect_svg(s(9), s(i * 15), s(38), s(15), f"Bal {i}", color(i % 7), 8)
+    # Thumb (same positions as VOLUME)
+    body += rect_svg(s(0), s(422), s(14), s(11), "Th P", color(7))
+    body += rect_svg(s(15), s(422), s(14), s(11), "Thumb", color(8))
+    return "BALANCE", w, h, svg_wrap(w, h, body)
 
 
 def generate_posbar():
@@ -167,11 +174,15 @@ def generate_shufrep():
         (28, 15, 47, 15, "Shuffle Off P"),
         (28, 30, 47, 15, "Shuffle On"),
         (28, 45, 47, 15, "Shuffle On P"),
-        # EQ/PL buttons
+        # EQ/PL buttons — normal at x=0..45, pressed at x=46..91
         (0, 61, 23, 12, "EQ Off"),
         (0, 73, 23, 12, "EQ On"),
         (23, 61, 23, 12, "PL Off"),
         (23, 73, 23, 12, "PL On"),
+        (46, 61, 23, 12, "EQ Off P"),
+        (46, 73, 23, 12, "EQ On P"),
+        (69, 61, 23, 12, "PL Off P"),
+        (69, 73, 23, 12, "PL On P"),
     ]
     body = ""
     for i, (x, y, rw, rh, label) in enumerate(regions):
@@ -209,34 +220,60 @@ def generate_monoster():
 
 
 def generate_numbers():
-    """NUMBERS.PNG - 99x13"""
+    """NUMBERS.PNG - 99x13: 10 digit cells + two 5x1 minus-dash overlays.
+
+    The renderer reads 10 digit cells at x=0..89 (9 px each), plus two
+    5x1 dash overlays embedded inside the digit-1 and digit-2 cells at
+    y=6: a transparent erasure at (9, 6) and a visible hyphen at (20, 6).
+    The rightmost 9 columns of the atlas are unused but kept for atlas-
+    size compatibility with classic Winamp.
+    """
     w, h = s(99), s(13)
     body = ""
     for i in range(10):
         body += rect_svg(s(i * 9), s(0), s(9), s(13), str(i), color(i))
-    body += rect_svg(s(90), s(0), s(9), s(13), "-", color(10))
+    body += rect_svg(s(9), s(6), s(5), s(1), "", color(10))
+    body += rect_svg(s(20), s(6), s(5), s(1), "", color(10))
     return "NUMBERS", w, h, svg_wrap(w, h, body)
 
 
 def generate_text():
-    """TEXT.PNG - 155x18 (31 cols x 3 rows, each char 5x6)"""
+    """TEXT.PNG - 155x18 (31 cols x 3 rows, each char 5x6).
+
+    Character map matches the Winamp bitmap font lookup table:
+      Row 0: A-Z (0..25), " (26), @ (27), blank (28, 29), space (30)
+      Row 1: 0-9 (0..9), … (10), .:()-'!_+\\/[]^&% (11..26), ,=$# (27..30)
+      Row 2: ÅÖÄ?* (0..4), blank (5..30)
+    """
     w, h = s(155), s(18)
-    row0 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@ _"  # 30 visible chars
-    row1 = "0123456789...:()-'!_+\\/[]^&%"
-    row2 = ",=$#"
+    # `None` marks an unused/blank cell.
+    row0 = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@") + [None, None, " "]
+    row1 = list("0123456789") + ["…"] + list(".:()-'!_+\\/[]^&%,=$#")
+    row2 = list("ÅÖÄ?*") + [None] * 26
+
+    def label_for(ch):
+        if ch is None:
+            return None
+        if ch == " ":
+            return "SP"
+        return ch
 
     body = ""
     ci = 0
     for col, ch in enumerate(row0):
-        if ch == "_":  # unused slot
+        if ch is None:
             continue
-        body += rect_svg(s(col * 5), s(0), s(5), s(6), ch if ch != " " else "SP", color(ci), 7)
+        body += rect_svg(s(col * 5), s(0), s(5), s(6), label_for(ch), color(ci), 7)
         ci += 1
     for col, ch in enumerate(row1):
-        body += rect_svg(s(col * 5), s(6), s(5), s(6), ch, color(ci), 7)
+        if ch is None:
+            continue
+        body += rect_svg(s(col * 5), s(6), s(5), s(6), label_for(ch), color(ci), 7)
         ci += 1
     for col, ch in enumerate(row2):
-        body += rect_svg(s(col * 5), s(12), s(5), s(6), ch, color(ci), 7)
+        if ch is None:
+            continue
+        body += rect_svg(s(col * 5), s(12), s(5), s(6), label_for(ch), color(ci), 7)
         ci += 1
     return "TEXT", w, h, svg_wrap(w, h, body)
 

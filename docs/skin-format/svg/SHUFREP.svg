@@ -25,4 +25,12 @@
   <text x="69.0" y="136.8" text-anchor="middle" fill="#6AD94A" font-family="monospace" font-size="8" font-weight="bold">PL Off</text>
   <rect x="46" y="146" width="46" height="24" fill="#D9D96A" fill-opacity="0.25" stroke="#D9D96A" stroke-width="1"/>
   <text x="69.0" y="160.8" text-anchor="middle" fill="#D9D96A" font-family="monospace" font-size="8" font-weight="bold">PL On</text>
+  <rect x="92" y="122" width="46" height="24" fill="#6A4AD9" fill-opacity="0.25" stroke="#6A4AD9" stroke-width="1"/>
+  <text x="115.0" y="136.8" text-anchor="middle" fill="#6A4AD9" font-family="monospace" font-size="8" font-weight="bold">EQ Off P</text>
+  <rect x="92" y="146" width="46" height="24" fill="#4AD96A" fill-opacity="0.25" stroke="#4AD96A" stroke-width="1"/>
+  <text x="115.0" y="160.8" text-anchor="middle" fill="#4AD96A" font-family="monospace" font-size="8" font-weight="bold">EQ On P</text>
+  <rect x="138" y="122" width="46" height="24" fill="#D94A6A" fill-opacity="0.25" stroke="#D94A6A" stroke-width="1"/>
+  <text x="161.0" y="136.8" text-anchor="middle" fill="#D94A6A" font-family="monospace" font-size="8" font-weight="bold">PL Off P</text>
+  <rect x="138" y="146" width="46" height="24" fill="#4A90D9" fill-opacity="0.25" stroke="#4A90D9" stroke-width="1"/>
+  <text x="161.0" y="160.8" text-anchor="middle" fill="#4A90D9" font-family="monospace" font-size="8" font-weight="bold">PL On P</text>
 </svg>

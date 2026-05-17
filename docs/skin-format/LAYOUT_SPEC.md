@@ -1,12 +1,10 @@
 # Minamp Skin Layout Spec
 
 The authoritative coordinate spec for every skin-rendered region across all
-window modes. **This is the source of truth.** Both the Swift renderer
-(the `SkinSystem` package inside the closed-source Minamp app repo) and
+window modes. **This is the source of truth.** The Minamp app renderer and
 the Figma plugin's `componentDefs.ts` must match these numbers.
 
-If you're updating the renderer or the plugin, update this doc *first*,
-then propagate.
+If you're updating either side, update this doc *first*, then propagate.
 
 ## Conventions
 
@@ -51,15 +49,15 @@ then propagate.
 | Shade Button | 254, 3 | 9 × 9 | Normal / Pressed |
 | Close Button | 264, 3 | 9 × 9 | Normal / Pressed |
 | Play Status | 24, 28 | 9 × 9 | Playing / Paused / Stopped |
-| Time Digits | 36, 26 | 99 × 13 | 11-cell sprite strip (`-`, `0`–`9`); renderer picks 5 cells per timestamp |
+| Time Digits | 36, 26 | 99 × 13 | 10-cell digit strip (`0`–`9`) plus two 5×1 minus-dash overlays at y=6 inside the digit-1 and digit-2 cells (transparent dash + visible hyphen); renderer picks 5 digit cells per timestamp |
 | **Mono Indicator** | **212, 41** | **27 × 12** | **Renders only when audio is mono** |
 | **Stereo Indicator** | **239, 41** | **29 × 12** | **Renders only when audio is stereo. Side-by-side with Mono on the same row, but only one is visible at runtime.** |
 | Volume Track | 107, 57 | 68 × 15 | BG / Fill — exporter interpolates 28 frames |
 | Volume Thumb | 107, 57 | 14 × 11 | Renders on top of track at fill-level x |
-| Balance Track | 177, 57 | 38 × 15 | BG / Fill — 28-frame interpolation. **Only 38 px wide, not 68.** |
+| Balance Track | 177, 57 | 38 × 15 | BG / Fill — 28-frame interpolation. **Rendered width is 38 px; the underlying `BALANCE.PNG` atlas is 68 px wide but frames are read from x=9 onward — the leftmost 9 columns are unused padding.** |
 | Balance Thumb | 189, 57 | 14 × 11 | Centered position when at neutral |
-| EQ Toggle | 219, 58 | 23 × 12 | Off / On |
-| PL Toggle | 242, 58 | 23 × 12 | Off / On |
+| EQ Toggle | 219, 58 | 23 × 12 | Off + Normal/Pressed × On + Normal/Pressed (4 variants) |
+| PL Toggle | 242, 58 | 23 × 12 | Same 4-variant matrix |
 | Seek Bar Track | 16, 72 | 248 × 10 | Single sprite, no interpolation |
 | Seek Bar Thumb | 16, 72 | 29 × 10 | Normal / Pressed; positioned dynamically |
 | Previous Button | 16, 88 | 23 × 18 | Normal / Pressed |
@@ -71,14 +69,12 @@ then propagate.
 | Shuffle Toggle | 164, 89 | 47 × 15 | Off + Normal/Pressed × On + Normal/Pressed (4 variants) |
 | Repeat Toggle | 210, 89 | 28 × 15 | Same 4-variant matrix |
 
-**Dynamic / non-sprite layers** (renderer-owned, no skin component). All
-positions verified against `MainWindowView.swift`, `VisualizerLayer.swift`,
-`MarqueeLayer.swift`:
+**Dynamic / non-sprite layers** (renderer-owned, no skin component):
 
 | Layer | Region | Notes |
 |---|---|---|
-| Visualizer | **24, 43, 76 × 16** | Spectrum analyzer / waveform; data-driven. Source: `VisualizerLayer.swift:10`. Much smaller than commonly assumed — it sits next to the time display, not across the full panel. |
-| Marquee (track title) | **111, 27, 154 × 6** | Bitmap-font scrolling text. Source: `MarqueeLayer.swift:13`. Sits above the audio info displays in a thin 6-px-tall band. |
+| Visualizer | **24, 43, 76 × 16** | Spectrum analyzer / waveform; data-driven. Much smaller than commonly assumed — it sits next to the time display, not across the full panel. |
+| Marquee (track title) | **111, 27, 154 × 6** | Bitmap-font scrolling text. Sits above the audio info displays in a thin 6-px-tall band. |
 | Kbps display | 111, 43 — bitmap font | 3 chars, right-aligned |
 | Khz display | 156, 43 — bitmap font | 2 chars, right-aligned |
 
@@ -124,7 +120,7 @@ these positions):
 
 | Layer | Region | Notes |
 |---|---|---|
-| Mini Time | 130, 4 — ~30 × 8 | 5-char bitmap font |
+| Mini Time | 130, 4 — 25 × 6 | 5-char bitmap font, right-aligned |
 | Mini Visualizer | 79, 5 — 76 × 5 | Compressed spectrum |
 | Mini Position BG | 226, 4 — 17 × 7 | Track sprite |
 | Mini Position Thumb | 226+offset, 4 — 3 × 7 | Repositioned dynamically along the track |
@@ -162,7 +158,7 @@ these positions):
 | EQ AUTO Toggle | 40, 18 | 32 × 12 | Same 4-variant matrix |
 | EQ PRESETS Button | 217, 18 | 44 × 12 | Normal / Pressed |
 | EQ Graph BG | 86, 17 | 113 × 19 | Recessed scope-screen surface |
-| EQ Slider Track | (see below), **38** | 15 × **63** | Vertical channel authored as one ComponentSet with `Part=BG` (empty track) + `Part=Fill` (fully-lit track). The exporter interpolates 28 intermediate frames **linearly**: frame 0 = empty, frame 27 = full (same semantics as the horizontal Volume/Balance sliders). **Track top is y=38**, height 63 → spans y=38..101. Source of truth: `SkinVerticalSlider.swift` constants. |
+| EQ Slider Track | (see below), **38** | 15 × **65** | Vertical channel authored as one ComponentSet with `Part=BG` (empty track) + `Part=Fill` (fully-lit track). The exporter interpolates 28 intermediate frames **linearly**: frame 0 = empty, frame 27 = full (same semantics as the horizontal Volume/Balance sliders). **Author at 15×65 (the sprite cell on EQMAIN.PNG); the rendered visible area is the top-left 14×63 — the trailing column and bottom 2 rows are clipped at runtime.** Track top is y=38; the 63 visible pixels span y=38..101. |
 | EQ Slider Thumb | (see below), **64** | 11 × 11 | Normal / Pressed; **y=64 is the resting (0 dB) position** — middle of the track. Full thumb top y range is **38..90** (52 px travel). At max +12 dB the thumb sits at y=38 (top of track); at min −12 dB it sits at y=90 (8 px above the bottom). |
 
 **EQ slider X positions** — both track and thumb share the same x:
@@ -176,9 +172,9 @@ these positions):
 
 > Pattern: preamp at x=21 then 10 bands starting at x=78 with 18 px
 > spacing. **Thumb x = track x + 2** — the 11-wide thumb is centered
-> inside the 15-wide track at runtime (see
-> `SkinVerticalSlider.swift:69`). For tidy alignment in the Figma
-> preview, thumbs are placed with that +2 offset explicitly.
+> inside the 15-wide track at runtime: `(15 - 11) / 2 = 2`. For tidy
+> alignment in the Figma preview, thumbs are placed with that +2
+> offset explicitly.
 
 **Dynamic layers**:
 
@@ -271,8 +267,8 @@ Default 275 × 232 layout (174 px body height = 6 left/right border tiles):
 
 ### 5b. Playlist Window — shade mode (variable width × 14)
 
-In shade mode the playlist collapses to a single 14-px-tall bar. Source:
-`PlaylistWindowView.swift:351–406`. The shade chrome reuses three sprites:
+In shade mode the playlist collapses to a single 14-px-tall bar. The
+shade chrome reuses three sprites:
 
 | Component | Position | Size (w × h) | Notes |
 |---|---|---|---|
@@ -357,52 +353,20 @@ see where the pixels are being dropped.
 
 ---
 
-## Discrepancies between this spec and `componentDefs.ts`
-
-All items in this section have been **resolved** as of the spec revision
-that audited every coordinate against the actual `*View.swift` code.
-Kept here as a changelog so you can see what was wrong before.
-
-### Resolved coordinate errors
-
-| # | Element | Old (wrong) | Corrected |
-|---|---|---|---|
-| 1 | EQ slider track X (preamp + 10 bands) | `[19, 76, 94, 112, 130, 148, 166, 184, 202, 220, 238]` | `[21, 78, 96, 114, 132, 150, 168, 186, 204, 222, 240]` |
-| 2 | EQ slider track Y | y=18 | **y=38** |
-| 3 | EQ slider track height | 65 | **63** |
-| 4 | EQ slider thumb default Y | y=38 (then mistakenly y=41) | **y=64** (true 0 dB resting) |
-| 5 | EQ slider thumb Y range | 15..67 (fabricated) | **38..90** |
-| 6 | Balance track width | 68 | **38** (only 38 px is rendered) |
-| 7 | Visualizer position | (0, 18, 275×42) | **(24, 43, 76×16)** |
-| 8 | Marquee position | (20, 40, 210×14) | **(111, 27, 154×6)** |
-| 9 | Playlist Scroll Handle X | `w−8` | **`w−14`** |
-| 10 | Playlist Shade Mode | section absent | added (§5b) |
-
-### Resolved design errors (also fixed in the Figma file directly)
-
-- EQ Background's decorative slider panel was at the wrong y range; now sits behind the actual sliders.
-- Title bars had 3 fake LED dots near the real Close/Min/Shade buttons; removed.
-- EQ Background had duplicate POWER/AUTO/PRESETS labels next to the actual buttons; replaced with subtle backdrop wells under each button.
-- Main Shade Background had no visible wells under the embedded transport hit-rects; now painted.
-- EQ Shade Background had no visible volume/balance channels; now painted.
-- Playlist Title Fill had a gradient that seamed when tiled; rebuilt as a vertical-only-gradient + full-width brush streaks.
-- EQ Window Preview rendered slider tracks ON TOP of buttons due to declaration order in `componentDefs.ts`; reordered so buttons + graph render above tracks.
-
-### Gotchas
+## Gotchas
 
 - **Component placement order = render order in Figma**: `componentDefs.ts` `placements: []` arrays must be declared bottom-up (background first, overlays last).
-- **A 1px discrepancy between component dimension and renderer rect is normal**: e.g. Volume sprite is 68×15 per the renderer's sprite extractor but the slider rect is 68×14 per the main-window view. The sprite size wins for component dimensions.
+- **A 1px discrepancy between component dimension and renderer rect is normal**: e.g. Volume sprite is 68×15 in the atlas but the slider rect is 68×14 on screen. The sprite size wins for component dimensions.
 
 ## Update checklist
 
 When changing any rendered region:
 
 - [ ] Update this spec doc first.
-- [ ] Coordinate with the Minamp maintainer to update the corresponding
-      `*View.swift` rendering code in the closed-source `SkinSystem`
-      Swift package.
 - [ ] Update `componentDefs.ts` in the Figma plugin (both component
       `width`/`height` and any preview `placements`).
-- [ ] Re-run `Generate Components` in the plugin to regenerate
-      the empty placeholders — expect to lose artwork in any component
+- [ ] Coordinate with the Minamp maintainers so the app renderer lands
+      the matching change.
+- [ ] Re-run `Generate Components` in the plugin to regenerate the
+      empty placeholders — expect to lose artwork in any component
       whose dimensions changed.
