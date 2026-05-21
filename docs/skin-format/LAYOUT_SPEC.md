@@ -215,7 +215,7 @@ these positions):
 The playlist window resizes. Components fall into three groups:
 
 - **Title bar** (top 20 px): `Left Corner` (fixed 25 px) + `Text` (centered 100 px) + `Fill Tile` (25 px, repeated to fill remaining width) + `Right Corner` (fixed 25 px). Active / Inactive variants for all four.
-- **Body** (middle, height = `windowHeight − 20 − 38`): `Left Border` (12 px wide, 29 px tall, vertically tiled) + the track-list area + `Right Border` (20 px wide, 29 px tall, vertically tiled). The right border contains the recessed scroll channel; the **Scroll Handle** (8 × 18, Normal / Active) renders inside it at x = `windowWidth − 8`, y = dynamic.
+- **Body** (middle, height = `windowHeight − 20 − 38`): `Left Border` (12 px wide, 29 px tall, vertically tiled) + the track-list area + `Right Border` (20 px wide, 29 px tall, vertically tiled). The right border contains the recessed scroll channel; the **Scroll Handle** (8 × 18, Normal / Active) renders inside it at x = `windowWidth − 15`, y = dynamic.
 - **Bottom bar** (bottom 38 px): `Bottom Left` (125 px) + `Bottom Fill` tiles (25 px, repeated) + `Bottom Right` (150 px).
 
 Default 275 × 232 layout (174 px body height = 6 left/right border tiles):
@@ -241,7 +241,7 @@ Default 275 × 232 layout (174 px body height = 6 left/right border tiles):
 | PL Title Right Corner | w−25, 0 | 25 × 20 | fixed | Active / Inactive |
 | PL Left Border | 0, 20+i·29 | 12 × 29 | vertical tile | Single |
 | PL Right Border | w−20, 20+i·29 | 20 × 29 | vertical tile | Single |
-| PL Scroll Handle | **w−14, 22+offset** | 8 × 18 | dynamic Y | Normal / Active. The handle sits inside the right-border area (20 px wide), 6 px from its left edge → x = w−20+6 = w−14. Default Y = titleBarHeight+2 = 22. |
+| PL Scroll Handle | **w−15, 22+offset** | 8 × 18 | dynamic Y | Normal / Active. The handle sits inside the right-border area (20 px wide), 5 px from its left edge → x = w−20+5 = w−15. Default Y = titleBarHeight+2 = 22. |
 | PL Bottom Left | 0, h−38 | 125 × 38 | fixed | Single |
 | PL Bottom Fill | 125+i·25, h−38 | 25 × 38 | tile | Single |
 | PL Bottom Right | w−150, h−38 | 150 × 38 | fixed | Single |
