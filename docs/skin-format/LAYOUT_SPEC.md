@@ -356,7 +356,7 @@ see where the pixels are being dropped.
 ## Gotchas
 
 - **Component placement order = render order in Figma**: `componentDefs.ts` `placements: []` arrays must be declared bottom-up (background first, overlays last).
-- **A 1px discrepancy between component dimension and renderer rect is normal**: e.g. Volume sprite is 68×15 in the atlas but the slider rect is 68×14 on screen. The sprite size wins for component dimensions.
+- **A 2 px discrepancy between component dimension and renderer rect is normal**: e.g. the Volume sprite is 68×15 per the renderer's sprite extractor but the slider rect is 68×13 per the main-window view (the top and bottom rows are padding). The sprite size wins for component dimensions.
 
 ## Update checklist
 
