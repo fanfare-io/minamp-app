@@ -11,6 +11,7 @@ Requires: rsvg-convert (brew install librsvg)
 
 import subprocess
 import os
+import zipfile
 
 SCALE = 2
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -434,8 +435,9 @@ def main():
     ]
 
     svg_dir = os.path.join(OUTPUT_DIR, "svg")
-    png_dir = OUTPUT_DIR
+    png_dir = os.path.join(OUTPUT_DIR, "template")
     os.makedirs(svg_dir, exist_ok=True)
+    os.makedirs(png_dir, exist_ok=True)
 
     for gen in generators:
         name, w, h, svg_content = gen()
@@ -478,7 +480,7 @@ def main():
             "214,90,0",
             "214,102,0",
             "214,115,0",
-            "198,123,0",
+            "198,123,8",
             "222,165,24",
             "214,181,33",
             "189,222,41",
@@ -510,8 +512,20 @@ Font=Arial
 """)
     print(f"  Config: {pledit_txt_path}")
 
+    # Package everything into Template.msz so the sample skin stays in
+    # lockstep with the generated PNGs / config files. .msz is just a zip
+    # with a Minamp/Winamp-convention extension.
+    msz_path = os.path.join(png_dir, "Template.msz")
+    msz_entries = sorted(
+        f for f in os.listdir(png_dir)
+        if f.endswith(".PNG") or f in {"skin.json", "VISCOLOR.TXT", "PLEDIT.TXT"}
+    )
+    with zipfile.ZipFile(msz_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        for entry in msz_entries:
+            zf.write(os.path.join(png_dir, entry), arcname=entry)
+    print(f"\n  Template.msz: {msz_path} ({len(msz_entries)} entries)")
+
     print(f"\nDone! Template skin files are in: {png_dir}")
-    print("To create a .msz skin, ZIP all PNG files + skin.json + config TXT files.")
 
 
 if __name__ == "__main__":
