@@ -1524,9 +1524,9 @@ export const PLAYLIST_PREVIEW: PreviewFrameDef = {
     { componentName: "PL Right Border", variantValues: {}, x: 255, y: 136 },
     { componentName: "PL Right Border", variantValues: {}, x: 255, y: 165 },
     // Scroll handle within right border area
-    // Scroll handle: x = w - rightBorderWidth + 6 = 275 - 20 + 6 = 261
+    // Scroll handle: x = w - rightBorderWidth + 5 = 275 - 20 + 5 = 260 (matches webamp)
     // y = titleBarHeight + 2 = 20 + 2 = 22 (default position when scrolled to top)
-    { componentName: "PL Scroll Handle", variantValues: { "State": "Normal" }, x: 261, y: 22 },
+    { componentName: "PL Scroll Handle", variantValues: { "State": "Normal" }, x: 260, y: 22 },
     // Bottom bar (y = 232 - 38 = 194). At the default 275 px width
     // there's no gap between Bottom Left (0..125) and Bottom Right
     // (125..275), so no fill tiles fit in this preview. At larger
