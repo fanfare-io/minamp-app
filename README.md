@@ -20,6 +20,8 @@ Minamp is coming to the Mac App Store. Latest info and download links at **[www.
 
 Reference template assets (known-good `Template.msz`, sprite-sheet PNGs, source SVGs) live at [`docs/skin-format/template/`](docs/skin-format/template/).
 
+Want to see a finished HD skin? Grab [`docs/skin-format/examples/nucleo-nlog-hd3x-nn.msz`](docs/skin-format/examples/nucleo-nlog-hd3x-nn.msz) — a 3x port of Nucleo NLog — and drop it onto Minamp to install.
+
 ## Reporting bugs
 
 - **App bugs** — [open an issue](https://github.com/fanfare-io/minamp-app/issues/new?template=bug_report.md) with a screen recording, macOS version, Minamp version, and whether you're on Apple Silicon or Intel.
